@@ -1,3 +1,3 @@
 public class Students {
-    private String [] preference = new String[4];
+    private int [] preference = new int[4];
 }

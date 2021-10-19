@@ -1,8 +1,8 @@
 public class Courses{
-    private String name;
-
+    private int courseNum;
     public Students [] intended;
     public Professors teacher;
+    public int popularity;
 
 
 
