@@ -27,6 +27,10 @@ public class Rooms {
         return time;
     }
 
+    public Courses getTCourse(TimeSlots t){
+        return course[t.getID()];
+    }
+
     public void setTime(TimeSlots [] t){
         time = t;
     }

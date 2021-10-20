@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.*;
 
 
@@ -91,7 +92,7 @@ public class Main {
                             }
                         }
                         surplus = temp[i][m].getPop() - room[roomID].getCap();
-                        finalCon = Math.max(surplus, sumOfConflict(room[roomID], temp[i][m]));
+                        finalCon = Math.max(surplus, sumOfConflict(time[j], temp[i][m]));
                         finalConlict[j] = finalCon;
                     }
                     finalT = findMinCon(finalConlict);
@@ -121,12 +122,12 @@ public class Main {
         return id;
     }
 
-    public int sumOfConflict(Rooms r, Courses c){
+    public int sumOfConflict(TimeSlots t, Courses c){
         int conflict = 0;
-        TimeSlots [] t = r.getTime();
-        for(int i = 0; i < t.length; i++){
-            if(t[i].isAssigned(r)){
-                conflict += c.getCConflict(t[i].getClass(r));
+        Rooms [] r = t.getRooms();
+        for(int i = 0; i < r.length; i++){
+            if(r[i].isAssigned(t)){
+                conflict += c.getCConflict(r[i].getTCourse(t));
             }
         }
         return conflict;
@@ -153,7 +154,47 @@ public class Main {
         }
     }
 
-    public void readFile(String constraints, String prefs){
+    public void readFile(String constraints, String prefs) throws FileNotFoundException, IOException{
+        BufferedReader con;
+        BufferedReader pre;
+        con = new BufferedReader(new FileReader(constraints));
+        String tmp;
+        String [] info;
+        boolean isRoom, isTeachers;
+        isRoom = false; isTeachers = false;
+        int tsize, rsize, csize, psize, index;
+        index = 0;
+        tsize = 0; rsize = 0; csize = 0; psize = 0;
+        while((tmp = con.readLine())!=null){
+            info = tmp.split("\\s+");
+            if(info[0] == "Class"){
+                tsize = Integer.parseInt(info[2]);
+                time = new TimeSlots[tsize];
+                for (int i = 0; i < tsize; i++){
+                    time[i] = new TimeSlots(i);
+                }
+            } else if (info[0] == "Rooms") {
+                rsize = Integer.parseInt(info[1]);
+                room = new Rooms[rsize];
+                isRoom = true;
+            } else if (info[0] == "Teachers"){
+                psize = Integer.parseInt(info[1]);
+                prof = new Professors[psize];
+            } else {
+                if(isRoom && (!isTeachers)){
+                    index = Integer.parseInt(info[0]) - 1;
+                    room[index] = new Room()
+                }
+            }
+        }
+
+
+        pre = new BufferedReader(new FileReader(prefs));
+        pre.close();
+        con.close();
+    }
+
+    public static void main(String [] args){
 
     }
 
