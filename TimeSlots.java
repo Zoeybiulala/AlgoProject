@@ -1,7 +1,8 @@
+import java.util.ArrayList;
 public class TimeSlots {
     private int ID;
     private Rooms [] room;
-    private Courses [] course;
+    private ArrayList<Courses> course = new ArrayList<Courses>();
 
     public TimeSlots(int i){
         ID = i;
@@ -15,13 +16,13 @@ public class TimeSlots {
         course = null;
     }
 
-    public TimeSlots(int i, Courses [] c){
+    public TimeSlots(int i, ArrayList<Courses> c){
         ID = i;
         room = null;
         course = c;
     }
 
-    public TimeSlots(int i, Rooms [] r, Courses [] c){
+    public TimeSlots(int i, Rooms [] r, ArrayList<Courses> c){
         ID = i;
         room = r;
         course = c;
@@ -31,7 +32,7 @@ public class TimeSlots {
         room = r;
     }
 
-    public void setCourse(Courses [] c){
+    public void setCourse(ArrayList<Courses> c){
         course = c;
     }
 
@@ -43,15 +44,15 @@ public class TimeSlots {
         return room;
     }
 
-    public Courses [] getCourse(){
+    public ArrayList<Courses> getCourse(){
         return course;
     }
 
     public Courses getClass(Rooms r){
-        return course[r.getID()];
+        return course.get(r.getID());
     }
 
     public boolean isAssigned(Rooms r){
-        return course[r.getID()] != null;
+        return course.get(r.getID()) != null;
     }
 }
