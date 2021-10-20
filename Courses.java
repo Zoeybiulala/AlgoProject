@@ -5,12 +5,12 @@ public class Courses{
     private int popularity;
     private Rooms room;
     private TimeSlots time;
-    private int [] finalConflict;
+    private int [] classConflict;
 
     public Courses (int i){
         ID = i;
         registrationList = new Students[1];
-        finalConflict = new int[1];
+        classConflict = new int[1];
         prof = null;
         popularity = 0;
         room = null;
@@ -43,19 +43,19 @@ public class Courses{
     }
 
     public void incrConflict(Courses c){
-        finalConflict[c.ID]++;
+        classConflict[c.ID]++;
     }
 
     public void incrConflict(int c){
-        finalConflict[c]++;
+        classConflict[c]++;
     }
 
     public int getConflict(Courses c){
-        return finalConflict[c.ID];
+        return classConflict[c.ID];
     }
 
     public int getConflict(int c){
-        return finalConflict[c];
+        return classConflict[c];
     }
 
     public void setProf(Professors p){
@@ -75,19 +75,19 @@ public class Courses{
     }
 
     public void incrCon(Courses c){
-        finalConflict[c.ID]++;
+        classConflict[c.ID]++;
     }
 
     public void incrCon(int c){
-        finalConflict[c]++;
+        classConflict[c]++;
     }
 
     public void setCon(Courses c, int i){
-        finalConflict[c.ID] = i;
+        classConflict[c.ID] = i;
     }
 
     public void setCon(int c, int i){
-        finalConflict[c] = i;
+        classConflict[c] = i;
     }
 
     public void addStu(Students s){
@@ -99,6 +99,10 @@ public class Courses{
         Students [] temp = new Students[size+1];
         temp[size] = s;
         registrationList = temp; 
+    }
+
+    public boolean notScheduled(){
+        return (time==null)&&(room==null);
     }
 
 }

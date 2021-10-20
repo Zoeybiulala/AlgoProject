@@ -5,6 +5,7 @@ public class Main {
     public Courses [] classes;
     public Professors [] prof;
     public TimeSlots [] time;
+    public Rooms [] room;
 
     public void getPopandCon(){
         Courses [] temp = new Courses[4];
@@ -50,8 +51,31 @@ public class Main {
                     return 0;
                 }
      });
-        sort(returnArr,(a, b)->Courses.compare(a, b));
         return returnArr;
+    }
+
+    public void sortRoom(){
+        Arrays.sort(room, new Comparator<Rooms>() {
+            @Override
+                 //arguments to this method represent the arrays to be sorted   
+                 public int compare(Rooms a, Rooms b){
+                    int aa = a.getCap();
+                    int bb = b.getCap();
+                    if(aa > bb)
+                        return -1;
+                    if(aa < bb)
+                        return 1;
+                    return 0;
+                }
+     });
+    }
+
+    public void scheduling(){
+        Courses [][] temp = pairing();
+        int size = temp.length;
+        for(int i = 0; i < size; i++){
+            temp[i]
+        }
     }
 
     
