@@ -5,10 +5,12 @@ public class Courses{
     private int popularity;
     private Rooms room;
     private TimeSlots time;
+    private int [] finalConflict;
 
     public Courses (int i){
         ID = i;
         registrationList = new Students[1];
+        finalConflict = new int[1];
         prof = null;
         popularity = 0;
         room = null;
@@ -16,7 +18,6 @@ public class Courses{
     }
 
     //getters and setters
-
     public int getID(){ 
         return  ID;
     }
@@ -39,6 +40,22 @@ public class Courses{
 
     public TimeSlots getTime(){
         return time;
+    }
+
+    public void incrConflict(Courses c){
+        finalConflict[c.ID]++;
+    }
+
+    public void incrConflict(int c){
+        finalConflict[c]++;
+    }
+
+    public int getConflict(Courses c){
+        return finalConflict[c.ID];
+    }
+
+    public int getConflict(int c){
+        return finalConflict[c];
     }
 
     public void setProf(Professors p){

@@ -1,4 +1,7 @@
 public class TimeSlots {
-    public Rooms classroom;
-    public Courses classAssigned;
+    private int ID;
+    private Rooms classroom;
+    private Courses classAssigned;
+
+    
 }
