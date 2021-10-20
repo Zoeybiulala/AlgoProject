@@ -52,7 +52,7 @@ public class Professors {
         toTeach = c; 
     }
 
-    public boolean equal(Professors a, Professors b){
-        return (a.ID == b.ID);
+    public boolean equal(Professors a){
+        return (a.ID == ID);
     }
 }

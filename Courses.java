@@ -74,6 +74,14 @@ public class Courses{
         popularity++;
     }
 
+    public void incrCon(Courses c){
+        finalConflict[c.ID]++;
+    }
+
+    public void incrCon(int c){
+        finalConflict[c]++;
+    }
+
     public void addStu(Students s){
         int size = registrationList.length;
         if (registrationList[size - 1] == null){

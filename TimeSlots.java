@@ -1,7 +1,7 @@
 public class TimeSlots {
     private int ID;
-    private Rooms room;
-    private Courses course;
+    private Rooms [] room;
+    private Courses [] course;
 
     public TimeSlots(int i){
         ID = i;
@@ -9,29 +9,29 @@ public class TimeSlots {
         course = null;
     }
 
-    public TimeSlots(int i, Rooms r){
+    public TimeSlots(int i, Rooms [] r){
         ID = i;
         room = r;
         course = null;
     }
 
-    public TimeSlots(int i, Courses c){
+    public TimeSlots(int i, Courses [] c){
         ID = i;
         room = null;
         course = c;
     }
 
-    public TimeSlots(int i, Rooms r, Courses c){
+    public TimeSlots(int i, Rooms [] r, Courses [] c){
         ID = i;
         room = r;
         course = c;
     }
 
-    public void setRoom(Rooms r){
+    public void setRoom(Rooms [] r){
         room = r;
     }
 
-    public void setCourse(Courses c){
+    public void setCourse(Courses [] c){
         course = c;
     }
 
@@ -39,11 +39,11 @@ public class TimeSlots {
         return ID;
     }
 
-    public Rooms getRoom(){
+    public Rooms [] getRooms(){
         return room;
     }
 
-    public Courses getCourse(){
+    public Courses [] getCourse(){
         return course;
     }
 }
