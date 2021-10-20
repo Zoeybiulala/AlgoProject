@@ -46,4 +46,12 @@ public class TimeSlots {
     public Courses [] getCourse(){
         return course;
     }
+
+    public Courses getClass(Rooms r){
+        return course[r.getID()];
+    }
+
+    public boolean isAssigned(Rooms r){
+        return course[r.getID()] != null;
+    }
 }

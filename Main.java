@@ -1,3 +1,4 @@
+import java.sql.Time;
 import java.util.*;
 
 public class Main {
@@ -42,8 +43,8 @@ public class Main {
             @Override
                  //arguments to this method represent the arrays to be sorted   
                  public int compare(Courses [] a, Courses [] b){
-                    int aa = a[0].getConflict(a[1]);
-                    int bb = b[0].getConflict(b[1]);
+                    int aa = a[0].getCConflict(a[1]);
+                    int bb = b[0].getCConflict(b[1]);
                     if(aa > bb)
                         return -1;
                     if(aa < bb)
@@ -73,15 +74,37 @@ public class Main {
     public void scheduling(){
         Courses [][] temp = pairing();
         int size = temp.length;
-        int finalCon;
+        int [] finalConlict;
+        int finalCon, roomID, surplus;
+        finalCon = 0;
+        roomID=-1;
+        surplus = Integer.MIN_VALUE;
         for(int i = 0; i < size; i++){
-            finalCon = 0;
             if(temp[i][0].notScheduled()){
                 for(int j = 0; j < time.length; j++){
-                    
+                    for (int k = 0; k < room.length; k++){
+                        if (!room[k].isAssigned(time[k])){
+                            roomID = k;
+                            break;
+                        }
+                    }
+                    surplus = temp[i][0].getPop() - room[roomID].getCap();
+                    finalCon = Math.max(surplus, sumOfConflict(room[roomID], temp[i][0]));
+
                 }
             }
         }
+    }
+
+    public int sumOfConflict(Rooms r, Courses c){
+        int conflict = 0;
+        TimeSlots [] t = r.getTime();
+        for(int i = 0; i < t.length; i++){
+            if(t[i].isAssigned(r)){
+                conflict += c.getCConflict(t[i].getClass(r));
+            }
+        }
+        return conflict;
     }
 
     

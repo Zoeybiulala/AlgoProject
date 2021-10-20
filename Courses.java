@@ -6,11 +6,13 @@ public class Courses{
     private Rooms room;
     private TimeSlots time;
     private int [] classConflict;
+    private int [] finalConflict;
 
-    public Courses (int i){
+    public Courses (int i, int cap, int t){
         ID = i;
         registrationList = new Students[1];
-        classConflict = new int[1];
+        classConflict = new int[cap];
+        finalConflict = new int[t];
         prof = null;
         popularity = 0;
         room = null;
@@ -26,7 +28,7 @@ public class Courses{
         return registrationList;
     }
 
-    public int getPpo(){
+    public int getPop(){
         return popularity;
     }
 
@@ -50,12 +52,28 @@ public class Courses{
         classConflict[c]++;
     }
 
-    public int getConflict(Courses c){
+    public int getCConflict(Courses c){
         return classConflict[c.ID];
     }
 
-    public int getConflict(int c){
+    public int getCConflict(int c){
         return classConflict[c];
+    }
+
+    public int getFConflict(Courses c){
+        return finalConflict[c.ID];
+    }
+
+    public int getFConlcit(int c){
+        return finalConflict[c];
+    }
+
+    public void setFConflict(Courses c, int i){
+        finalConflict[c.ID] = i;
+    }
+
+    public void setFConflict(int c, int i){
+        finalConflict[c] = i;
     }
 
     public void setProf(Professors p){
