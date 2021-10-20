@@ -1,4 +1,5 @@
 public class Rooms {
-   private int capacity;
-    
+    private int ID;
+    private int capacity;
+
 }

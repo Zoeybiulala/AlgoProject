@@ -1,9 +1,10 @@
 public class Courses{
-    private int courseNum;
-    public Students [] intended;
-    public Professors teacher;
-    public int popularity;
+    private int ID;
+    private Students [] registrationList;
+    private Professors prof;
+    private int popularity;
+    private Rooms room;
 
-
+    //public Course(int i, Students [] r, )
 
 }
