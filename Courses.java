@@ -82,6 +82,14 @@ public class Courses{
         finalConflict[c]++;
     }
 
+    public void setCon(Courses c, int i){
+        finalConflict[c.ID] = i;
+    }
+
+    public void setCon(int c, int i){
+        finalConflict[c] = i;
+    }
+
     public void addStu(Students s){
         int size = registrationList.length;
         if (registrationList[size - 1] == null){
