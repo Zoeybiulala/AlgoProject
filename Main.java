@@ -1,5 +1,5 @@
-import java.sql.Time;
 import java.util.*;
+
 
 public class Main {
     public Students [] stu;
@@ -11,7 +11,7 @@ public class Main {
     public void getPopandCon(){
         Courses [] temp = new Courses[4];
         for(Students s: stu){
-            temp = s.getReg();
+            temp = s.getPref();
             for(int i=0; i<4; i++){
                 temp[i].incrPop();
                 for (int j = i+1; j<4; j++){
@@ -74,26 +74,51 @@ public class Main {
     public void scheduling(){
         Courses [][] temp = pairing();
         int size = temp.length;
-        int [] finalConlict;
-        int finalCon, roomID, surplus;
+        int [] finalConlict = new int[time.length];
+        int finalCon, roomID, surplus, finalRoomID, finalT;
         finalCon = 0;
         roomID=-1;
         surplus = Integer.MIN_VALUE;
+        finalRoomID = -1;
         for(int i = 0; i < size; i++){
-            if(temp[i][0].notScheduled()){
-                for(int j = 0; j < time.length; j++){
-                    for (int k = 0; k < room.length; k++){
-                        if (!room[k].isAssigned(time[k])){
-                            roomID = k;
+            for (int m = 0; m <2; m++){
+                if(temp[i][m].notScheduled()){
+                    for(int j = 0; j < time.length; j++){
+                        for (int k = 0; k < room.length; k++){
+                            if (!room[k].isAssigned(time[k])){
+                                roomID = k;
+                                break;
+                            }
+                        }
+                        surplus = temp[i][m].getPop() - room[roomID].getCap();
+                        finalCon = Math.max(surplus, sumOfConflict(room[roomID], temp[i][m]));
+                        finalConlict[j] = finalCon;
+                    }
+                    finalT = findMinCon(finalConlict);
+                    temp[i][m].setTime(time[finalT]);
+                    finalRoomID = roomID;
+                    for(int h = room.length-1; h >= roomID; h++){
+                        if(room[h].getCap() > temp[i][m].getPop()){
+                            finalRoomID = h;
                             break;
                         }
                     }
-                    surplus = temp[i][0].getPop() - room[roomID].getCap();
-                    finalCon = Math.max(surplus, sumOfConflict(room[roomID], temp[i][0]));
-
+                    temp[i][m].setRoom(room[finalRoomID]);
                 }
             }
         }
+    }
+
+    public int findMinCon(int [] arr){
+        int id = 0;
+        int min = arr[0];
+        for (int i = 1; i < arr.length; i++){
+            if(arr[i]<min){
+                id = i;
+                min = arr[i];
+            }
+        }
+        return id;
     }
 
     public int sumOfConflict(Rooms r, Courses c){
@@ -105,6 +130,31 @@ public class Main {
             }
         }
         return conflict;
+    }
+
+    public void enrollment() {
+        Courses [] temp = new Courses[4];
+        boolean available = true;
+        for(Students s :stu) {
+            temp = s.getPref();
+            for(int i=0; i<4; i++) {
+                for(int j=0; j<4; j++) {
+                    if(j != i) {
+                        if(temp[j].getTime().equals(temp[i].getTime())){
+                            available = false;
+                        }
+                    }
+                }
+                if(temp[i].getRoom().getCap() > temp[i].getReg().size() && available){
+                    temp[i].addStu(s);
+                    s.addReg(temp[i]);
+                }
+            }
+        }
+    }
+
+    public void readFile(String constraints, String prefs){
+
     }
 
     
