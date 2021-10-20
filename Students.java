@@ -1,14 +1,15 @@
+import java.util.ArrayList;
+
 public class Students {
     private int ID;
     private Courses [] pref;
-    private Courses [] reg;
+    private ArrayList<Courses> reg = new ArrayList<Courses>();
 
     public Students(int i){
         ID = i;
         pref = new Courses[4];
         pref[0] = null;
-        reg = new Courses[1];
-        reg[0] = null;
+        //reg is already initialized
     }
 
     public int getID(){
@@ -16,10 +17,10 @@ public class Students {
     }
 
     public int getRegNum(){
-        return reg.length;
+        return reg.size();
     }
 
-    public Courses [] getReg(){
+    public ArrayList<Courses> getReg(){
         return reg;
     }
 
@@ -102,14 +103,7 @@ public class Students {
     }
 
     public void addReg(Courses c){
-        int size = reg.length;
-        if (reg[size - 1] == null){
-            reg[size - 1] = c;
-            return;
-        }
-        Courses [] temp = new Courses[size+1];
-        temp[size] = c;
-        reg = temp; 
+        reg.add(c);
     }
 
     public void addPref(Courses [] c){
