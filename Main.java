@@ -15,8 +15,8 @@ public class Main {
                 temp[i].incrPop();
                 for (int j = i+1; j<4; j++){
                     if(temp[i].getPro().equal(temp[j].getPro())){
-                        temp[i].setCon(temp[j], 1000000000);
-                        temp[j].setCon(temp[i], 1000000000);
+                        temp[i].setCon(temp[j], Integer.MAX_VALUE);
+                        temp[j].setCon(temp[i], Integer.MAX_VALUE);
                     } else {
                         temp[i].incrCon(temp[j]);
                         temp[j].incrCon(temp[i]);
@@ -73,8 +73,14 @@ public class Main {
     public void scheduling(){
         Courses [][] temp = pairing();
         int size = temp.length;
+        int finalCon;
         for(int i = 0; i < size; i++){
-            temp[i]
+            finalCon = 0;
+            if(temp[i][0].notScheduled()){
+                for(int j = 0; j < time.length; j++){
+                    
+                }
+            }
         }
     }
 

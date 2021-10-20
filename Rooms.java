@@ -36,4 +36,9 @@ public class Rooms {
         course[tID] = c;
     }
 
+    public boolean isAssigned(TimeSlots t){
+        int tID = t.getID();
+        return (course[tID] !=null);
+    }
+
 }
