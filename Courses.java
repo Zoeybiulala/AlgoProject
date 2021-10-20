@@ -1,6 +1,8 @@
+import java.util.ArrayList;
+
 public class Courses{
     private int ID;
-    private Students [] registrationList;
+    private ArrayList<Students> registrationList = new ArrayList<Students>();
     private Professors prof;
     private int popularity;
     private Rooms room;
@@ -10,7 +12,7 @@ public class Courses{
 
     public Courses (int i, int cap, int t){
         ID = i;
-        registrationList = new Students[1];
+        //registration list already initialized
         classConflict = new int[cap];
         finalConflict = new int[t];
         prof = null;
@@ -24,7 +26,7 @@ public class Courses{
         return  ID;
     }
 
-    public Students [] getReg(){
+    public ArrayList<Students> getReg(){
         return registrationList;
     }
 
@@ -109,14 +111,7 @@ public class Courses{
     }
 
     public void addStu(Students s){
-        int size = registrationList.length;
-        if (registrationList[size - 1] == null){
-            registrationList[size - 1] = s;
-            return;
-        }
-        Students [] temp = new Students[size+1];
-        temp[size] = s;
-        registrationList = temp; 
+        registrationList.add(s);
     }
 
     public boolean notScheduled(){
