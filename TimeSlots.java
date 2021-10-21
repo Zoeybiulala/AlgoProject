@@ -1,27 +1,48 @@
 import java.util.ArrayList;
+/** class of Rooms
+ */
 public class TimeSlots {
-    private int ID;
-    private Rooms [] room;
-    private ArrayList<Courses> course = new ArrayList<Courses>();
-
+    //instances field
+    private int ID; //unique id for Time Slots
+    private Rooms [] room; //the rooms that are avaiable for this time slot
+    private ArrayList<Courses> course = new ArrayList<Courses>(); //assigned courses at this time slot
+    
+    /**
+     * constructors of TimeSlots
+     * @param i is the unique id for TimeSlot
+     */
     public TimeSlots(int i){
         ID = i;
         room = null;
-        course = null;
     }
 
+    /**
+     * constructors of TimeSlots
+     * @param i is the unique id for TimeSlot
+     * @param r the rooms for this timeslot
+     */
     public TimeSlots(int i, Rooms [] r){
         ID = i;
         room = r;
-        course = null;
     }
 
+    /**
+     * constructors of TimeSlots
+     * @param i is the unique id for TimeSlot
+     * @param c the assigned classes for this time slot
+     */
     public TimeSlots(int i, ArrayList<Courses> c){
         ID = i;
         room = null;
         course = c;
     }
 
+    /**
+     * constructors of TimeSlots
+     * @param i is the unique id for TimeSlot
+     * @param r the rooms for this timeslot
+     * @param c the assigned classes for this time slot
+     */
     public TimeSlots(int i, Rooms [] r, ArrayList<Courses> c){
         ID = i;
         room = r;
@@ -52,6 +73,7 @@ public class TimeSlots {
         return course.get(r.getID());
     }
 
+    //check if a room at this time slot is assigned to some class
     public boolean isAssigned(Rooms r){
         return course.get(r.getID()) != null;
     }

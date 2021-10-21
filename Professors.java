@@ -1,7 +1,15 @@
+/**
+ * class of Professors
+ */
 public class Professors {
-    private int ID;
-    private Courses [] teach;
+    //instances field
+    private int ID; //unique id for the professor
+    private Courses [] teach; //the courses this professor will teach
 
+    /**
+     * constructor of Professors
+     * @param i is the unique id for the professor
+     */
     public Professors(int i){
         ID = i;
         teach = new Courses[1];
@@ -31,6 +39,7 @@ public class Professors {
         teach = c; 
     }
 
+    //check if this professor and another professor is the same professor
     public boolean equal(Professors a){
         return (a.ID == ID);
     }
