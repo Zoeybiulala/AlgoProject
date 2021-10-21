@@ -100,9 +100,10 @@ public class Main {
      * Scheduling 
      */
     public static void scheduling(){
+        sortRoom();
         Courses [][] temp = pairing();
         int size = temp.length;
-        int [] finalConlict = new int[time.length];
+        
         int finalCon, roomID, surplus, finalRoomID, finalT;
         finalCon = 0;
         roomID=-1;
@@ -111,6 +112,7 @@ public class Main {
         for(int i = 0; i < size; i++){
             for (int m = 0; m <2; m++){
                 if(temp[i][m].notScheduled()){
+                    int [] finalConlict = new int[time.length];
                     for(int j = 0; j < time.length; j++){
                         //find the largest avaiable room at time [j]
                         //and record the conflict number
