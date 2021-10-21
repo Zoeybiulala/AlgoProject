@@ -99,7 +99,7 @@ public class Main {
                     temp[i][m].setTime(time[finalT]);
                     time[finalT].addClass(temp[i][m]);
                     finalRoomID = roomID;
-                    for(int h = room.length-1; h > roomID; h++){
+                    for(int h = room.length-1; h > roomID; h--){
                         if(room[h].getCap() > temp[i][m].getPop()){
                             finalRoomID = h;
                             break;
@@ -145,10 +145,11 @@ public class Main {
                         }
                     }
                 }
-                if(temp[i].getRoom().getCap() > temp[i].getReg().size() && available){
+                if((temp[i].getRoom().getCap() >= temp[i].getReg().size()) && available){
                     temp[i].addStu(s);
                     s.addReg(temp[i]);
                 }
+                available = true;
             }
         }
     }
@@ -226,25 +227,28 @@ public class Main {
         con.close();
     }
 
-    public static int outputSchedule(String file) throws FileNotFoundException{
+    public static int outputSchedule(String file) throws IOException{
         int preferenceVal = 0;
         for (int i = 0; i < classes.length; i++){
-            preferenceVal += classes[i].getReg().size();
+            preferenceVal += (classes[i].getReg()).size();
         }
         int stuID;
-        PrintWriter pw = new PrintWriter(new File(file));
+        BufferedWriter pw = new BufferedWriter(new FileWriter(file));
         String tmp = "";
-        pw.write("Course\tRoom\tTeacher\tTime\tStudents");
+        tmp = "Course\tRoom\tTeacher\tTime\tStudents\n";
+        pw.write(tmp);
+        tmp = "";
         for (int i = 0; i < classes.length; i++){
             ArrayList<Students> regList = classes[i].getReg();
             tmp += (i+1)+ "\t" + (classes[i].getRoom().getID() + 1) + "\t"
-                 + classes[i].getPro().getID()+ 1 + "\t" 
-                    + classes[i].getTime().getID() + "\t";
+                 + (classes[i].getPro()).getID()+ 1 + "\t" 
+                    + (classes[i].getTime().getID() + 1) + "\t";
             for (int j = 0; j < regList.size(); j++){
                 stuID = regList.get(j).getID()+1;
                 tmp += stuID + " " ; 
             }
-            pw.write(tmp);
+            pw.write(tmp + "\n");
+            tmp = "";
         }
         pw.flush();
         pw.close();
