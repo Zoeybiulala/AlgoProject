@@ -322,9 +322,9 @@ public class Main {
     }
 
     public static void main(String [] args) throws FileNotFoundException, IOException{
-        String con = "demo_constraints.txt";
-        String pref = "demo_studentprefs.txt";
-        String output = "demo_schedule.txt";
+        String con = args[0];
+        String pref = args[1];
+        String output = args[2];
         readFile(con,pref);
         getPopandCon();
         scheduling();
