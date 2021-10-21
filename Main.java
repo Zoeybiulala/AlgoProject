@@ -250,9 +250,9 @@ public class Main {
     }
 
     public static void main(String [] args) throws FileNotFoundException, IOException{
-        String con = args[0];
-        String pref = args[1];
-        String output = args[2];
+        String con = "k3r5c10t10s40/constraints_0";
+        String pref = "k3r5c10t10s40/prefs_0";
+        String output = "output.txt";
         readFile(con,pref);
         getPopandCon();
         scheduling();
