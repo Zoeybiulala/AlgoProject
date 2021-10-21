@@ -11,7 +11,7 @@ public class Rooms {
         ID = i;
         capacity = c;
         time= t;
-        course = new Courses[1];
+        course = new Courses[t.length];
     }
 
     public int getID(){

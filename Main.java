@@ -99,7 +99,7 @@ public class Main {
                     temp[i][m].setTime(time[finalT]);
                     time[finalT].addClass(temp[i][m]);
                     finalRoomID = roomID;
-                    for(int h = room.length-1; h >= roomID; h++){
+                    for(int h = room.length-1; h > roomID; h++){
                         if(room[h].getCap() > temp[i][m].getPop()){
                             finalRoomID = h;
                             break;
@@ -161,43 +161,45 @@ public class Main {
         String [] info;
         boolean isRoom, isTeachers;
         isRoom = false; isTeachers = false;
-        int tsize, rsize, csize, psize, index, capacity, pIndex;
-        index = 0; tsize = 0; rsize = 0; csize = 0; psize = 0; capacity = 0; pIndex = 0;
+        int tsize, rsize, csize, psize,index2, capacity, pIndex;
+        index2 = 0;tsize = 0; rsize = 0; csize = 0; psize = 0; capacity = 0; pIndex = 0;
         while((tmp = con.readLine())!=null){
             info = tmp.split("\\s+");
-            if(info[0] == "Class"){
+            if(info[0].equals("Class")){
                 tsize = Integer.parseInt(info[2]);
                 time = new TimeSlots[tsize];
                 for (int i = 0; i < tsize; i++){
                     time[i] = new TimeSlots(i);
                 }
-            } else if (info[0] == "Rooms") {
+            } else if (info[0].equals("Rooms")) {
                 rsize = Integer.parseInt(info[1]);
                 room = new Rooms[rsize];
                 isRoom = true;
-            } else if (info[0] == "Classes"){
+            } else if (info[0].equals("Classes")){
                 csize = Integer.parseInt(info[1]);
                 classes = new Courses[csize];
                 for(int i = 0; i < csize; i++){
                     classes[i] = new Courses(i, csize, tsize);
                 }
-            } else if (info[0] == "Teachers"){
+            } else if (info[0].equals("Teachers")){
                 psize = Integer.parseInt(info[1]);
                 prof = new Professors[psize];
                 for(int i = 0; i < psize; i++){
                     prof[i] = new Professors(i);
                 }
+                isTeachers = true;
             } else {
                 if(isRoom && (!isTeachers)){
-                    index = Integer.parseInt(info[0]) - 1;
+                    int index1 = Integer.parseInt(info[0]);
+                    index1 = index1 - 1;
                     capacity = Integer.parseInt(info[1]);
-                    room[index] = new Rooms(index, capacity, time);
+                    room[index1] = new Rooms(index1, capacity, time);
                 }
                 if(isRoom && isTeachers){
-                    index = Integer.parseInt(info[0]) - 1;
+                    index2 = Integer.parseInt(info[0]) - 1;
                     pIndex = Integer.parseInt(info[1]) - 1;
-                    classes[index].setProf(prof[pIndex]);
-                    prof[pIndex].addCourse(classes[index]);
+                    classes[index2].setProf(prof[pIndex]);
+                    prof[pIndex].addCourse(classes[index2]);
                 }
             }
         }
@@ -258,8 +260,8 @@ public class Main {
         scheduling();
         enrollment();
         int preferenceVal = outputSchedule(output);
-        System.out.println("Student Preference Value" + preferenceVal);
-        System.out.println("Best Case Student Value" + 4*stu.length);
+        System.out.println("Student Preference Value: " + preferenceVal);
+        System.out.println("Best Case Student Value: " + 4*stu.length);
     }
 
 }
