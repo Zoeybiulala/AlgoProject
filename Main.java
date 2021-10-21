@@ -195,17 +195,18 @@ public class Main {
     }
 
     public static void enrollment() {
-        Courses [] temp = new Courses[4];
         boolean available = true;
         for(Students s :stu) {
+            Courses [] temp = new Courses[4];
             temp = s.getPref();
             for(int i=0; i<4; i++) {
-                for(int j=0; j<4; j++) {
-                    if(j != i) {
-                        if(temp[j].getTime().equals(temp[i].getTime())){
-                            available = false;
-                        }
+                for(int j=0; j<s.getRegNum(); j++) {
+                    int a = temp[j].getTime().getID();
+                    int b = temp[i].getTime().getID();
+                    if(a == b){
+                        available = false;
                     }
+                    
                 }
                 if((temp[i].getRoom().getCap() >= temp[i].getReg().size()) && available){
                     temp[i].addStu(s);
@@ -331,6 +332,7 @@ public class Main {
         int preferenceVal = outputSchedule(output);
         System.out.println("Student Preference Value: " + preferenceVal);
         System.out.println("Best Case Student Value: " + 4*stu.length);
+        System.out.println("Fit percentage: " + 100* ((double)preferenceVal/(4*stu.length)) + "%");
     }
 
 }
