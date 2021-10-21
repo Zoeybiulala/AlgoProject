@@ -156,7 +156,7 @@ public class Main {
                     temp[i][m].setTime(time[finalT]);
                     time[finalT].addClass(temp[i][m]);
                     finalRoomID = roomID;
-                    for(int h = room.length-1; h > roomID; h--){
+                    for(int h = room.length-1; h >= 0; h--){
                         if(room[h].getCap() > temp[i][m].getPop() && !room[h].isAssigned(time[finalT])){
                             finalRoomID = h;
                             break;
@@ -185,6 +185,10 @@ public class Main {
     public static int sumOfConflict(TimeSlots t, Courses c){
         int conflict = 0;
         for (int i =0; i< t.getCourse().size();i++) {
+            if(t.getCourse().get(i).getPro().equals(c.getPro())){
+                conflict = Integer.MAX_VALUE;
+                break;
+            }
             conflict += t.getCourse().get(i).getCConflict(c);
         }
         return conflict;
