@@ -159,6 +159,7 @@ public class Main {
                             finalRoomID = h;
                             break;
                         }
+                        finalRoomID = h;
                     }
                     temp[i][m].setRoom(room[finalRoomID]);
                     room[finalRoomID].addCourse(temp[i][m], time[finalT]);
