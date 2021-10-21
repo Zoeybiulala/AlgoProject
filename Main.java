@@ -3,11 +3,21 @@ import java.util.*;
 
 
 public class Main {
+    /*
+        global instances to store all variables
+    */
     public static Students [] stu;
     public static Courses [] classes;
     public static Professors [] prof;
     public static TimeSlots [] time;
     public static Rooms [] room;
+
+    /**
+     * Calcualte the popularity of each courses by going through the 
+     *  preference list of each student
+     * Count the number for each course who have the same student that 
+     *  want to enroll into the course
+     */
 
     public static void getPopandCon(){
         Courses [] temp = new Courses[4];
@@ -28,6 +38,16 @@ public class Main {
         }
     }
 
+    /**
+     * Pairing each course
+     * Store into a 2D array with index 0 and index 1 refer to 
+     *  two courses that are paired
+     * Sort the 2D array by decreasing number of conflicts,
+     *  i.e., number of shared students
+     * 
+     * @return 2D array to store each pairing, sorted
+     */
+
     public static Courses[][] pairing(){
         int total = classes.length * (classes.length-1) / 2;
         Courses [][] returnArr = new Courses[total][2];
@@ -40,6 +60,7 @@ public class Main {
             }
         }
 
+        //sort the 2D array by conflict numbers
         Arrays.sort(returnArr, new Comparator<Courses[]>() {
             @Override
                  //arguments to this method represent the arrays to be sorted   
@@ -56,6 +77,9 @@ public class Main {
         return returnArr;
     }
 
+    /**
+     * Sort the room by it capacity
+     */
     public static void sortRoom(){
         Arrays.sort(room, new Comparator<Rooms>() {
             @Override
@@ -72,6 +96,9 @@ public class Main {
      });
     }
 
+    /**
+     * Scheduling 
+     */
     public static void scheduling(){
         Courses [][] temp = pairing();
         int size = temp.length;
@@ -172,6 +199,9 @@ public class Main {
         }
     }
 
+    /**
+     * Read the input files and store all instances into several arrays
+    */
     public static void readFile(String constraints, String prefs) throws FileNotFoundException, IOException{
         BufferedReader con;
         BufferedReader pre;
