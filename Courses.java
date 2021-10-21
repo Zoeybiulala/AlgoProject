@@ -1,15 +1,25 @@
 import java.util.ArrayList;
-
+/* The Courses will contain information about one course
+ */
 public class Courses{
-    private int ID;
+    //instances field
+    private int ID; //unique id for a course
     private ArrayList<Students> registrationList = new ArrayList<Students>();
-    private Professors prof;
-    private int popularity;
-    private Rooms room;
-    private TimeSlots time;
-    private int [] classConflict;
-    private int [] finalConflict;
+                    //a list of registered students
+    private Professors prof; // the professor who will teach the class
+    private int popularity; // the number of students who want to take this class
+    private Rooms room; // the assigned room for this class
+    private TimeSlots time; //the assigned time for this class
+    private int [] classConflict; //the index of the array is the each class and the value represents
+                                  //the conflict number of this class with the class at certain index
+    private int [] finalConflict; //the index of the array is the time slot and the value represents
+                                  //a value that represents the conflict score at the given time slot
 
+    /* Constructor
+     * @param i, the id of the course
+     * @param cap, the number of classes to be scheduled
+     * @param t, number of timeslots
+     */
     public Courses (int i, int cap, int t){
         ID = i;
         //registration list already initialized
@@ -90,10 +100,12 @@ public class Courses{
         time = t;
     }
 
+    //increment popularity of the class
     public void incrPop(){
         popularity++;
     }
 
+    //increment the conflict number of this class and another class c
     public void incrCon(Courses c){
         classConflict[c.ID]++;
     }
@@ -110,10 +122,12 @@ public class Courses{
         classConflict[c] = i;
     }
 
+    //add a student s to the registration list 
     public void addStu(Students s){
         registrationList.add(s);
     }
 
+    //to see if the class is scheduled or not
     public boolean notScheduled(){
         return (time==null)&&(room==null);
     }
