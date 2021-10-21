@@ -1,17 +1,25 @@
 import java.util.ArrayList;
-
+/* Students class represent a student and its preference list and final registration
+ * 
+ */
 public class Students {
-    private int ID;
-    private Courses [] pref;
-    private ArrayList<Courses> reg = new ArrayList<Courses>();
+    //instances field
+    private int ID; //unique id for each student
+    private Courses [] pref; // 4 classes in preference list
+    private ArrayList<Courses> reg = new ArrayList<Courses>(); 
+                            //a list of final classes the student would take
 
+    /* constructor
+     * @param i, the unique id of the student
+     */
     public Students(int i){
         ID = i;
         pref = new Courses[4];
         pref[0] = null;
         //reg is already initialized
     }
-
+    
+    //getters and setters
     public int getID(){
         return ID;
     }
@@ -28,6 +36,7 @@ public class Students {
         return pref;
     }
 
+    //different ways to construct a student's preference list (as an array)
     public void addPref(Courses c){
         for (int i = 0; i < 4; i++){
             if(pref[i] == null ){
@@ -102,11 +111,16 @@ public class Students {
         }
     }
 
+    public void addPref(Courses [] c){
+        pref = c; 
+    }
+
+    /* addReg will add the course into the student's registration list
+     * @param c, the course that the student will take
+     */
     public void addReg(Courses c){
         reg.add(c);
     }
 
-    public void addPref(Courses [] c){
-        pref = c; 
-    }
+    
 }
