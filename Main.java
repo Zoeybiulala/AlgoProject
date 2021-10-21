@@ -185,10 +185,6 @@ public class Main {
     public static int sumOfConflict(TimeSlots t, Courses c){
         int conflict = 0;
         for (int i =0; i< t.getCourse().size();i++) {
-            if(t.getCourse().get(i).getPro().equals(c.getPro())){
-                conflict = Integer.MAX_VALUE;
-                break;
-            }
             conflict += t.getCourse().get(i).getCConflict(c);
         }
         return conflict;
