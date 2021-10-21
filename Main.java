@@ -112,10 +112,20 @@ public class Main {
             for (int m = 0; m <2; m++){
                 if(temp[i][m].notScheduled()){
                     for(int j = 0; j < time.length; j++){
+                        //find the largest avaiable room at time [j]
+                        //and record the conflict number
+                        // int k = 0;
+                        // while(room[k].isAssigned(time[j]) == false) {
+                        //     k++;
+                        //     if(k>=room.length){
+                        //         break;
+                        //     }
+                        // }
+                        // roomID = k-1;
                         for (int k = 0; k < room.length; k++){
-                            if (!room[k].isAssigned(time[k])){
+                            if (!room[k].isAssigned(time[j])){
                                 roomID = k;
-                                break;
+                                k = room.length;
                             }
                         }
                         surplus = temp[i][m].getPop() - room[roomID].getCap();
@@ -145,7 +155,7 @@ public class Main {
                     time[finalT].addClass(temp[i][m]);
                     finalRoomID = roomID;
                     for(int h = room.length-1; h > roomID; h--){
-                        if(room[h].getCap() > temp[i][m].getPop()){
+                        if(room[h].getCap() > temp[i][m].getPop() && !room[h].isAssigned(time[finalT])){
                             finalRoomID = h;
                             break;
                         }
@@ -304,9 +314,9 @@ public class Main {
     }
 
     public static void main(String [] args) throws FileNotFoundException, IOException{
-        String con = args[0];
-        String pref = args[1];
-        String output = args[2];
+        String con = "demo_constraints.txt";
+        String pref = "demo_studentprefs.txt";
+        String output = "demo_schedule.txt";
         readFile(con,pref);
         getPopandCon();
         scheduling();
