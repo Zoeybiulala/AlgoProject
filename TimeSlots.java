@@ -55,4 +55,8 @@ public class TimeSlots {
     public boolean isAssigned(Rooms r){
         return course.get(r.getID()) != null;
     }
+
+    public void addClass(Courses c){
+        course.add(c);
+    }
 }

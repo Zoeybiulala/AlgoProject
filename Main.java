@@ -3,13 +3,13 @@ import java.util.*;
 
 
 public class Main {
-    public Students [] stu;
-    public Courses [] classes;
-    public Professors [] prof;
-    public TimeSlots [] time;
-    public Rooms [] room;
+    public static Students [] stu;
+    public static Courses [] classes;
+    public static Professors [] prof;
+    public static TimeSlots [] time;
+    public static Rooms [] room;
 
-    public void getPopandCon(){
+    public static void getPopandCon(){
         Courses [] temp = new Courses[4];
         for(Students s: stu){
             temp = s.getPref();
@@ -28,7 +28,7 @@ public class Main {
         }
     }
 
-    public Courses[][] pairing(){
+    public static Courses[][] pairing(){
         int total = classes.length * (classes.length-1) / 2;
         Courses [][] returnArr = new Courses[total][2];
         int count = 0;
@@ -56,7 +56,7 @@ public class Main {
         return returnArr;
     }
 
-    public void sortRoom(){
+    public static void sortRoom(){
         Arrays.sort(room, new Comparator<Rooms>() {
             @Override
                  //arguments to this method represent the arrays to be sorted   
@@ -72,7 +72,7 @@ public class Main {
      });
     }
 
-    public void scheduling(){
+    public static void scheduling(){
         Courses [][] temp = pairing();
         int size = temp.length;
         int [] finalConlict = new int[time.length];
@@ -97,6 +97,7 @@ public class Main {
                     }
                     finalT = findMinCon(finalConlict);
                     temp[i][m].setTime(time[finalT]);
+                    time[finalT].addClass(temp[i][m]);
                     finalRoomID = roomID;
                     for(int h = room.length-1; h >= roomID; h++){
                         if(room[h].getCap() > temp[i][m].getPop()){
@@ -105,12 +106,13 @@ public class Main {
                         }
                     }
                     temp[i][m].setRoom(room[finalRoomID]);
+                    room[finalRoomID].addCourse(temp[i][m], time[finalT]);
                 }
             }
         }
     }
 
-    public int findMinCon(int [] arr){
+    public static int findMinCon(int [] arr){
         int id = 0;
         int min = arr[0];
         for (int i = 1; i < arr.length; i++){
@@ -122,7 +124,7 @@ public class Main {
         return id;
     }
 
-    public int sumOfConflict(TimeSlots t, Courses c){
+    public static int sumOfConflict(TimeSlots t, Courses c){
         int conflict = 0;
         for (int i =0; i< t.getCourse().size();i++) {
             conflict += t.getCourse().get(i).getCConflict(c);
@@ -130,7 +132,7 @@ public class Main {
         return conflict;
     }
 
-    public void enrollment() {
+    public static void enrollment() {
         Courses [] temp = new Courses[4];
         boolean available = true;
         for(Students s :stu) {
@@ -151,7 +153,7 @@ public class Main {
         }
     }
 
-    public void readFile(String constraints, String prefs) throws FileNotFoundException, IOException{
+    public static void readFile(String constraints, String prefs) throws FileNotFoundException, IOException{
         BufferedReader con;
         BufferedReader pre;
         con = new BufferedReader(new FileReader(constraints));
@@ -204,6 +206,9 @@ public class Main {
         info = tmp.split("\\s+");
         int stuSize = Integer.parseInt(info[1]);
         stu = new Students[stuSize];
+        for(int i = 0; i < stuSize; i++){
+            stu[i] = new Students(i);
+        }
         int stuID, courseID;
         stuID = -1;
         courseID = -1;
@@ -219,13 +224,42 @@ public class Main {
         con.close();
     }
 
-    public static void main(String [] args){
-        
+    public static int outputSchedule(String file) throws FileNotFoundException{
+        int preferenceVal = 0;
+        for (int i = 0; i < classes.length; i++){
+            preferenceVal += classes[i].getReg().size();
+        }
+        int stuID;
+        PrintWriter pw = new PrintWriter(new File(file));
+        String tmp = "";
+        pw.write("Course\tRoom\tTeacher\tTime\tStudents");
+        for (int i = 0; i < classes.length; i++){
+            ArrayList<Students> regList = classes[i].getReg();
+            tmp += (i+1)+ "\t" + (classes[i].getRoom().getID() + 1) + "\t"
+                 + classes[i].getPro().getID()+ 1 + "\t" 
+                    + classes[i].getTime().getID() + "\t";
+            for (int j = 0; j < regList.size(); j++){
+                stuID = regList.get(j).getID()+1;
+                tmp += stuID + " " ; 
+            }
+            pw.write(tmp);
+        }
+        pw.flush();
+        pw.close();
+        return preferenceVal;
     }
 
-    
-
-
-
+    public static void main(String [] args) throws FileNotFoundException, IOException{
+        String con = args[0];
+        String pref = args[1];
+        String output = args[2];
+        readFile(con,pref);
+        getPopandCon();
+        scheduling();
+        enrollment();
+        int preferenceVal = outputSchedule(output);
+        System.out.println("Student Preference Value" + preferenceVal);
+        System.out.println("Best Case Student Value" + 4*stu.length);
+    }
 
 }
