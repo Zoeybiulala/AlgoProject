@@ -1,3 +1,4 @@
+
 import java.io.*;
 import java.util.*;
 
@@ -322,6 +323,7 @@ public class Main {
     }
 
     public static void main(String [] args) throws FileNotFoundException, IOException{
+        long start = System.currentTimeMillis();
         String con = args[0];
         String pref = args[1];
         String output = args[2];
@@ -333,6 +335,8 @@ public class Main {
         System.out.println("Student Preference Value: " + preferenceVal);
         System.out.println("Best Case Student Value: " + 4*stu.length);
         System.out.println("Fit percentage: " + 100* ((double)preferenceVal/(4*stu.length)) + "%");
+        long end = System.currentTimeMillis();
+        System.out.println("Time used: " + (end-start));
     }
 
 }
