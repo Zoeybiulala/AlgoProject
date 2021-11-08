@@ -1,18 +1,27 @@
-
+/**
+ * Description: Main class to read file, store information from the file as different instances
+ *              Schedule classes into classrooms and time slots and enroll students in
+ * 
+ * Author: Tianbo Yang, Yitian Cao, Xinran Liu
+ * Date Updated: Nov.8, 2021
+ */
 import java.io.*;
 import java.util.*;
 
-
 public class Main {
-    /*
-        global instances to store all variables
-    */
+    /**
+     * global instances to store all variables
+     */
     public static Students [] stu;
     public static Courses [] classes;
     public static HashMap<String,Professors> professors;
     public static TimeSlots [] time;
     public static Rooms [] room;
 
+    /**
+     * For each Time slot, checking all other times slots and record
+     * those time slots have schedule conflitcs with it. 
+     */
     public static void setConflictTimes(){
         for(TimeSlots t: time){
             for(TimeSlots tt:time) {
@@ -22,6 +31,7 @@ public class Main {
                 }
             }
         }
+        //sort the array by number of conflicts
         Arrays.sort(time, new Comparator<TimeSlots>() {
             @Override
                  //arguments to this method represent the arrays to be sorted   
@@ -43,26 +53,35 @@ public class Main {
      * Count the number for each course who have the same student that 
      *  want to enroll into the course
      */
-
     public static void getPopandCon(){
-        setConflictTimes();
+        //let the array of time slots be sorted by those has 
+        // less conflicts with other time slot s to be assigned first
+        setConflictTimes(); 
         ArrayList<Courses> temp = new ArrayList<Courses>(); 
         for(Students s: stu){
-            temp = s.getPref();
-            int size = temp.size();
-            for(int i=0; i<size; i++){
-                temp.get(i).incrPop();
-                for (int j = i+1; j<size; j++){
+            temp = s.getPref(); //get the preference list for each student 
+            for(int i=0; i<temp.size(); i++){
+                //since the student want to enrool in the class, the popularity for
+                //such course will increase
+                temp.get(i).incrPop(); 
+                // record the number of conflicts by checking if some student
+                // want to take both courses at the same time, if so, we increase 
+                // the number of conflicts
+                for (int j = i+1; j<temp.size(); j++){
+                    //if the two courses share the professor, we set the conflict number 
+                    //to infinity to ensure they will not be assigned into the same time slots
                     if(temp.get(i).getPro().equals(temp.get(j).getPro())){
                         temp.get(i).setCon(temp.get(j), Integer.MAX_VALUE);
                         temp.get(j).setCon(temp.get(i), Integer.MAX_VALUE);
-                    } else {
+                    } else { 
                         temp.get(i).incrCon(temp.get(j));
                         temp.get(j).incrCon(temp.get(i));
                     }
                 }
             }
         }
+        //setting the conflict number of some course with some other course into infinity if
+        //they share the same professor
         for(Professors p :professors.values()){
             ArrayList<Courses> teach = p.getCourse();
             for(int i=0;i<teach.size();i++) {
@@ -85,22 +104,23 @@ public class Main {
      */
 
     public static Courses[][] pairing(){
-        int total = classes.length * (classes.length-1) / 2;
+        int total = classes.length * (classes.length-1) / 2; //total number of pairings
+        //return array is 2D with index 1 storing some course and index 2 
+        // storing it pairing courses
         Courses [][] returnArr = new Courses[total][2];
         int count = 0;
         for (int i = 0; i < classes.length-1; i++){
             for (int j = i+1; j< classes.length; j++){
                 returnArr[count][0]=classes[i];
                 returnArr[count][1]=classes[j];
-                count++;
+                count++; //use count to record the first index of the 2d array
             }
         }
-
         //sort the 2D array by conflict numbers
         Arrays.sort(returnArr, new Comparator<Courses[]>() {
             @Override
                  //arguments to this method represent the arrays to be sorted   
-                 public int compare(Courses [] a, Courses [] b){
+                public int compare(Courses [] a, Courses [] b){
                     int aa = a[0].getCConflict(a[1]);
                     int bb = b[0].getCConflict(b[1]);
                     if(aa > bb)
@@ -109,7 +129,7 @@ public class Main {
                         return 1;
                     return 0;
                 }
-     });
+        });
         return returnArr;
     }
 
@@ -119,8 +139,8 @@ public class Main {
     public static void sortRoom(){
         Arrays.sort(room, new Comparator<Rooms>() {
             @Override
-                 //arguments to this method represent the arrays to be sorted   
-                 public int compare(Rooms a, Rooms b){
+                //arguments to this method represent the arrays to be sorted   
+                public int compare(Rooms a, Rooms b){
                     int aa = a.getCap();
                     int bb = b.getCap();
                     if(aa > bb)
@@ -129,20 +149,21 @@ public class Main {
                         return 1;
                     return 0;
                 }
-     });
+        });
     }
 
     /**
-     * Scheduling 
+     * Scheduling the classes into classrooms and timeslots
+     * 
+     * Our definition of conflict numbers is 
      */
     public static void scheduling(){
         sortRoom();
         Courses [][] temp = pairing();
-        int size = temp.length;
-        
+        int size = temp.length; 
         int finalCon, roomID, surplus, finalRoomID, finalT;
-        finalCon = 0;
-        roomID=0;
+        finalCon = 0; 
+        roomID = 0; 
         surplus = Integer.MIN_VALUE;
         finalRoomID = -1;
         for(int i = 0; i < size; i++){
@@ -151,32 +172,45 @@ public class Main {
                     // if(temp[i][m].getName().equals("002151") || temp[i][m].getName().equals("011826")){
                     //     System.out.println(i+" "+m);
                     // }
-                    int [] finalConlict = new int[time.length];
+
+                    // storing the final conflict some courses in all time slots
+                    int [] finalConlict = new int[time.length]; 
                     for(int j = 0; j < time.length; j++){
-                        for (int k = 0; k < room.length; k++){ //find the largest available room
-                            if (!room[k].isAssigned(time[j])){
-                                roomID = k;
-                                k = room.length;
+                        // find the largest available room
+                        // we only need to first the first available room since the array is 
+                        // alreay sorted by its capacity
+                        for (int k = 0; k < room.length; k++){ 
+                            if (!room[k].isAssigned(time[j])){ 
+                                roomID = k; //record the index for the largest availble room
+                                k = room.length; //break
                             }
                         }
+                        //surplus is positive only happens when some class have more student want to enroll
+                        // than the room's capacity
                         surplus = temp[i][m].getPop() - room[roomID].getCap();
+                        // record the larger from conflict number or the shortage of classroom capacity
                         finalCon = Math.max(surplus, sumOfConflict(time[j], temp[i][m]));
                         finalConlict[j] = finalCon;
                     }
-                    
-                    
+                    //find the timeslot with minimum conflict numbers 
                     finalT = findMinCon(finalConlict);
+                    //schedule the course into the timeslot
                     temp[i][m].setTime(time[finalT]); 
+                    //record the course into timeslot instances
                     time[finalT].addClass(temp[i][m]);
-                    finalRoomID = roomID;
+
+                    //finding the room to be assigned
+                    finalRoomID = roomID; //initialize it first into the largest available room
+                    //finding the smallest room can fit all students inside
                     for(int h = room.length-1; h >= 0; h--){
                         if(room[h].getCap() >= temp[i][m].getPop() 
-                            && !room[h].isAssigned(time[finalT])){ //
+                            && !room[h].isAssigned(time[finalT])){ 
                             finalRoomID = h;
                             break;
                         }
-                        finalRoomID = h;
+                        finalRoomID = h; //??do we need this?
                     }
+                    //setting & scheduling
                     temp[i][m].setRoom(room[finalRoomID]);
                     room[finalRoomID].setTime(time[finalT],finalT);
                     room[finalRoomID].addCourse(temp[i][m], time[finalT]);
@@ -185,6 +219,11 @@ public class Main {
         }
     }
 
+    /**
+     * helper function for scheduling
+     * @param arr array storing the conflict numbers of some course with all time slots
+     * @return the index of the array with the least conflict number
+     */
     public static int findMinCon(int [] arr){
         int id = 0;
         int min = arr[0];
@@ -198,8 +237,28 @@ public class Main {
         return id;
     }
 
+    /**
+     * calculate the number of conflicts between the course c and all other courses assigned
+     * into the timeslot t and all other timeslots overlapping with t
+     * @param t some timeslot
+     * @param c some course
+     * @return the number of conflicts 
+     */
     public static int sumOfConflict(TimeSlots t, Courses c){
         int conflict = 0;
+        //caculating the number of total conflicts 
+        for (int i =0; i< t.getCourse().size();i++) {
+            //when the professor teaching c is already teaching some other courses
+            //thus will not be available
+            if(t.getCourse().get(i).getPro().equals(c.getPro())){
+                conflict = Integer.MAX_VALUE;
+                break;
+            }
+            if(conflict != Integer.MAX_VALUE){
+                conflict += t.getCourse().get(i).getCConflict(c);
+            }
+        }
+        //checking all timeslots overlapping with t and redo the process with them
         for(TimeSlots tt : t.getConflictTime()){
             for (int i =0; i< tt.getCourse().size();i++) {
                 if(tt.getCourse().get(i).getPro().equals(c.getPro())){
@@ -207,41 +266,46 @@ public class Main {
                     break;
                 }
                 if(conflict != Integer.MAX_VALUE){
-                    conflict += tt.getCourse().get(i).getCConflict(c);//
+                    conflict += tt.getCourse().get(i).getCConflict(c);
                 }
                 
             }
         }
-        
         return conflict;
     }
 
+    /**
+     * enroll students into courses
+     */
     public static void enrollment() {
         boolean available = true;
-        int sCou =0;
+        // int sCou =0;
         for(Students s :stu) {
-            ArrayList<Courses> temp = new ArrayList<Courses>(); //gaile
-            temp = s.getPref();
+            ArrayList<Courses> temp = new ArrayList<Courses>(); 
+            temp = s.getPref(); //get each student's preference list
             for(int i=0; i<temp.size(); i++) {
+                //checking if the course students registered has no schedule
+                //conlict with the next course the student want to enroll
                 for(int j=0; j<s.getRegNum(); j++) {
-                    if(temp.get(i).getName().equals("002855") || s.getReg().get(j).getName().equals("002855)")){
-                        System.out.println(sCou+" "+i+" "+j);
-                    }
+                    // if(temp.get(i).getName().equals("002855") || s.getReg().get(j).getName().equals("002855)")){
+                    //     System.out.println(sCou+" "+i+" "+j);
+                    // }
                     TimeSlots a = temp.get(i).getTime();
                     TimeSlots b = s.getReg().get(j).getTime();
                     if(a.isOverlapping(b)){
                         available = false;
                     }
-                    
                 }
                 //at temp.get(i) class, it is available
+                //students can enroll in temp.get(i) class when they are available
+                //and the classroom has enough room to fit them in
                 if((temp.get(i).getRoom().getCap() > temp.get(i).getReg().size()) && available){
                     temp.get(i).addStu(s);
                     s.addReg(temp.get(i));
                 }
                 available = true;
             }
-            sCou ++;
+            // sCou ++;
         }
     }
 
@@ -249,25 +313,26 @@ public class Main {
      * Read the input files and store all instances into several arrays
     */
     public static void readFile(String constraints, String prefs) throws FileNotFoundException, IOException{
-        BufferedReader con;
-        BufferedReader pre;
-        con = new BufferedReader(new FileReader(constraints));
+        BufferedReader con; //constraints file
+        BufferedReader pre; //students' preference list
+        con = new BufferedReader(new FileReader(constraints)); //read the constaint file first
         String tmp;
         String [] info;
         boolean isRoom, isTeachers, isTime;
         isRoom = false; isTeachers = false; isTime = false;
-        int tsize, rsize, csize, psize, capacity, pIndex;
+        int tsize, rsize, csize, capacity;
         int roomCount =0;
         int classCount = 0;
         int timeCount  =0;
-        tsize = 0; rsize = 0; csize = 0; psize = 0; capacity = 0; pIndex = 0;
+        //int psize = 0;
+        //int pIndex = 0;
+        tsize = 0; rsize = 0; csize = 0;  capacity = 0;
         while((tmp = con.readLine())!=null){
-            info = tmp.split("\\s+");
+            info = tmp.split("\\s+"); //split each line with space
             if(info[0].equals("Class")){
                 tsize = Integer.parseInt(info[2]);
                 time = new TimeSlots[tsize];
                 isTime = true;
-
             } else if (info[0].equals("Rooms")) {
                 rsize = Integer.parseInt(info[1]);
                 room = new Rooms[rsize];
@@ -277,7 +342,7 @@ public class Main {
                 classes = new Courses[csize];
   
             } else if (info[0].equals("Teachers")){
-                psize = Integer.parseInt(info[1]);
+                //psize = Integer.parseInt(info[1]);
                 professors = new HashMap<>();
                 // prof = new Professors[psize];
                 // for(int i = 0; i < psize; i++){
@@ -285,20 +350,20 @@ public class Main {
                 // }
                 isTeachers = true;
             } else {
-                if(isTime && (!isRoom)&&(!isTeachers)){
-                  
-                        int start = Integer.parseInt(info[1].replaceAll(":",""));
-                        int end = Integer.parseInt(info[3].replaceAll(":",""));
-                        if(info[2].equals("PM") && start != 1200)
-                            start +=1200;
-                      
-                        if(info[4].equals("PM") && end != 1200){
-                            end += 1200;
-                          
-                        }
-                        time[timeCount] = new TimeSlots(timeCount,start,end,info[5]);   
-                        timeCount ++;  
-                    
+                if(isTime && (!isRoom)&&(!isTeachers)){ //we need to store the timeslots
+                    int start = Integer.parseInt(info[1].replaceAll(":",""));
+                    int end = Integer.parseInt(info[3].replaceAll(":",""));
+                    //we used military time for start and end time 
+                    //e.g.use 2100 to represent 9:00PM
+                    //12PM is just 1200
+                    if(info[2].equals("PM") && start != 1200){
+                        start +=1200;
+                    }
+                    if(info[4].equals("PM") && end != 1200){
+                        end += 1200;
+                    }
+                    time[timeCount] = new TimeSlots(timeCount,start,end,info[5]);   
+                    timeCount ++;  
                 }
                 if(isTime && isRoom && (!isTeachers)){
                     capacity = Integer.parseInt(info[1]);
@@ -332,7 +397,7 @@ public class Main {
         while((tmp = pre.readLine())!=null){ //deigai
             info = tmp.split("\\s+");
             stu[stuID] = new Students(stuID, info[0]);
-            boolean hasClass =false;
+            boolean hasClass = false;
             for(int i = 1; i < info.length; i++){
                 for(Courses c : stu[stuID].getPref()) {
                     if(c.getName().equals(info[i])){ //we have this class already
@@ -355,14 +420,24 @@ public class Main {
         con.close();
     }
 
+    /**
+     * Read the path for some file and will output the schedule in such file
+     * and calculate the student prefernce value
+     * @param file
+     * @return the value of total students successfully enrolled, i.e., student
+     *          preference value
+     * @throws IOException
+     */
     public static int outputSchedule(String file) throws IOException{
         int preferenceVal = 0;
+        //calculate the preference value
         for (int i = 0; i < classes.length; i++){
             preferenceVal += (classes[i].getReg()).size();
         }
         String stuID;
         BufferedWriter pw = new BufferedWriter(new FileWriter(file));
         String tmp = "";
+        //formatting
         tmp = "Course\tRoom\tTeacher\tTime\tStudents\n";
         pw.write(tmp);
         tmp = "";
@@ -399,16 +474,16 @@ public class Main {
         long end = System.currentTimeMillis();
         System.out.println("Time used: " + (end-start));
 
-        for(Courses c: classes){
-            if(c.getName().equals("002151")){
-                for(Courses a:classes){
-                    if(a.getName().equals("011826")){
-                        System.out.println(c.getPro().equals(a.getPro()));
-                        System.out.println(c.getCConflict(a));
-                    }
-                }
-            }
-        }
+        // for(Courses c: classes){
+        //     if(c.getName().equals("002151")){
+        //         for(Courses a:classes){
+        //             if(a.getName().equals("011826")){
+        //                 System.out.println(c.getPro().equals(a.getPro()));
+        //                 System.out.println(c.getCConflict(a));
+        //             }
+        //         }
+        //     }
+        // }
     }
 
 }
