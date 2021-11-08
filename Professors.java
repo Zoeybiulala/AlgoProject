@@ -1,43 +1,43 @@
+import java.util.ArrayList;
 /**
  * class of Professors
  */
 public class Professors {
     //instances field
     private int ID; //unique id for the professor
-    private Courses [] teach; //the courses this professor will teach
+    private String name;
+    private ArrayList<Courses> teach = new ArrayList<Courses>(); //the courses this professor will teach
 
     /**
      * constructor of Professors
      * @param i is the unique id for the professor
      */
-    public Professors(int i){
+    public Professors(int i, String n){
         ID = i;
-        teach = new Courses[1];
+        name = n;
     }
 
-    public Professors(int i, Courses [] t){
-        ID = i;
-        teach = t;
+    public Professors(String n) {
+        name = n;
     }
+
 
     public int getID(){
         return ID;
     }
 
-    public void addCourse(Courses c){
-        int size = teach.length;
-        if (teach[size - 1] == null){
-            teach[size - 1] = c;
-            return;
-        }
-        Courses [] temp = new Courses[size+1];
-        temp[size] = c;
-        teach = temp; 
+    public String getName(){
+        return name;
     }
 
-    public void addCourse(Courses [] c){
-        teach = c; 
+    public void addCourse(Courses c){
+        teach.add(c);
     }
+
+    public ArrayList<Courses> getCourse(){
+        return teach;
+    }
+
 
     //check if this professor and another professor is the same professor
     public boolean equal(Professors a){

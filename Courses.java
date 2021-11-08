@@ -14,13 +14,13 @@ public class Courses{
                                   //the conflict number of this class with the class at certain index
     private int [] finalConflict; //the index of the array is the time slot and the value represents
                                   //a value that represents the conflict score at the given time slot
-
+    private String name;
     /* Constructor
      * @param i, the id of the course
      * @param cap, the number of classes to be scheduled
      * @param t, number of timeslots
      */
-    public Courses (int i, int cap, int t){
+    public Courses (int i, int cap, int t, String n){
         ID = i;
         //registration list already initialized
         classConflict = new int[cap];
@@ -29,6 +29,7 @@ public class Courses{
         popularity = 0;
         room = null;
         time = null;
+        name = n;
     }
 
     //getters and setters
@@ -80,6 +81,10 @@ public class Courses{
         return finalConflict[c];
     }
 
+    public String getName(){
+        return name;
+    }
+
     public void setFConflict(Courses c, int i){
         finalConflict[c.ID] = i;
     }
@@ -129,7 +134,7 @@ public class Courses{
 
     //to see if the class is scheduled or not
     public boolean notScheduled(){
-        return (time==null)&&(room==null);
+        return (time==null)||(room==null);
     }
 
 }
