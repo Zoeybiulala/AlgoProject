@@ -148,6 +148,9 @@ public class Main {
         for(int i = 0; i < size; i++){
             for (int m = 0; m <2; m++){
                 if(temp[i][m].notScheduled()){
+                    // if(temp[i][m].getName().equals("002151") || temp[i][m].getName().equals("011826")){
+                    //     System.out.println(i+" "+m);
+                    // }
                     int [] finalConlict = new int[time.length];
                     for(int j = 0; j < time.length; j++){
                         for (int k = 0; k < room.length; k++){ //find the largest available room
@@ -203,7 +206,10 @@ public class Main {
                     conflict = Integer.MAX_VALUE;
                     break;
                 }
-                conflict += tt.getCourse().get(i).getCConflict(c);//
+                if(conflict != Integer.MAX_VALUE){
+                    conflict += tt.getCourse().get(i).getCConflict(c);//
+                }
+                
             }
         }
         
@@ -212,24 +218,30 @@ public class Main {
 
     public static void enrollment() {
         boolean available = true;
+        int sCou =0;
         for(Students s :stu) {
             ArrayList<Courses> temp = new ArrayList<Courses>(); //gaile
             temp = s.getPref();
             for(int i=0; i<temp.size(); i++) {
                 for(int j=0; j<s.getRegNum(); j++) {
-                    TimeSlots a = temp.get(j).getTime();
-                    TimeSlots b = temp.get(i).getTime();
-                    if(a.isOverlapping(b)){//dei gai
+                    if(temp.get(i).getName().equals("002855") || s.getReg().get(j).getName().equals("002855)")){
+                        System.out.println(sCou+" "+i+" "+j);
+                    }
+                    TimeSlots a = temp.get(i).getTime();
+                    TimeSlots b = s.getReg().get(j).getTime();
+                    if(a.isOverlapping(b)){
                         available = false;
                     }
                     
                 }
-                if((temp.get(i).getRoom().getCap() >= temp.get(i).getReg().size()) && available){
+                //at temp.get(i) class, it is available
+                if((temp.get(i).getRoom().getCap() > temp.get(i).getReg().size()) && available){
                     temp.get(i).addStu(s);
                     s.addReg(temp.get(i));
                 }
                 available = true;
             }
+            sCou ++;
         }
     }
 
