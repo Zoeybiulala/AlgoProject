@@ -10,6 +10,7 @@ public class TimeSlots {
     private int start;
     private int end;
     private boolean[] weekdays;
+    private ArrayList<TimeSlots> conflictTimes = new ArrayList<TimeSlots>();
     /**
      * constructors of TimeSlots
      * @param i is the unique id for TimeSlot
@@ -95,6 +96,13 @@ public class TimeSlots {
         }
         return false;
 
+    }
+    public void addConflictTime(TimeSlots t){
+        conflictTimes.add(t);
+    }
+
+    public ArrayList<TimeSlots> getConflictTime(){
+        return conflictTimes;
     }
 
     public void setRoom(Rooms [] r){

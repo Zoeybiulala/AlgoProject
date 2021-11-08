@@ -40,7 +40,7 @@ public class Professors {
 
 
     //check if this professor and another professor is the same professor
-    public boolean equal(Professors a){
-        return (a.ID == ID);
+    public boolean equals(Professors a){
+        return (a.getName().equals(name));
     }
 }

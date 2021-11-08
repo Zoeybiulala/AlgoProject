@@ -13,6 +13,30 @@ public class Main {
     public static TimeSlots [] time;
     public static Rooms [] room;
 
+    public static void setConflictTimes(){
+        for(TimeSlots t: time){
+            for(TimeSlots tt:time) {
+                if(t.isOverlapping(tt)){
+                    t.addConflictTime(tt);
+                    tt.addConflictTime(t);
+                }
+            }
+        }
+        Arrays.sort(time, new Comparator<TimeSlots>() {
+            @Override
+                 //arguments to this method represent the arrays to be sorted   
+                 public int compare(TimeSlots t1, TimeSlots t2){
+                    int aa = t1.getConflictTime().size();
+                    int bb = t2.getConflictTime().size();;
+                    if(aa > bb)
+                        return 1;
+                    if(aa < bb)
+                        return -1;
+                    return 0;
+                }
+            });
+    }
+
     /**
      * Calcualte the popularity of each courses by going through the 
      *  preference list of each student
@@ -21,6 +45,7 @@ public class Main {
      */
 
     public static void getPopandCon(){
+        setConflictTimes();
         ArrayList<Courses> temp = new ArrayList<Courses>(); 
         for(Students s: stu){
             temp = s.getPref();
@@ -166,18 +191,13 @@ public class Main {
                 min = arr[i];
             }
         }
+        if(min==Integer.MAX_VALUE) return -1;
         return id;
     }
 
     public static int sumOfConflict(TimeSlots t, Courses c){
         int conflict = 0;
-        ArrayList<TimeSlots> overlaps = new ArrayList<TimeSlots>();
-        for(int i=0; i< time.length;i++) {
-            if(t.isOverlapping(time[i])){
-                overlaps.add(time[i]);
-            }
-        }
-        for(TimeSlots tt : overlaps){
+        for(TimeSlots tt : t.getConflictTime()){
             for (int i =0; i< tt.getCourse().size();i++) {
                 if(tt.getCourse().get(i).getPro().equals(c.getPro())){
                     conflict = Integer.MAX_VALUE;
@@ -361,17 +381,22 @@ public class Main {
         scheduling();
         enrollment();
         int preferenceVal = outputSchedule(output);
-        // Courses[][] temp = pairing();
-        // for(int i=0;i< 100;i++) {
-        //     System.out.println(temp[i][0].getName());
-        //     System.out.println(temp[i][1].getName());
-        // }
-        
         System.out.println("Student Preference Value: " + preferenceVal);
         System.out.println("Best Case Student Value: " + 4*stu.length);
         System.out.println("Fit percentage: " + 100* ((double)preferenceVal/(4*stu.length)) + "%");
         long end = System.currentTimeMillis();
         System.out.println("Time used: " + (end-start));
+
+        for(Courses c: classes){
+            if(c.getName().equals("002151")){
+                for(Courses a:classes){
+                    if(a.getName().equals("011826")){
+                        System.out.println(c.getPro().equals(a.getPro()));
+                        System.out.println(c.getCConflict(a));
+                    }
+                }
+            }
+        }
     }
 
 }
