@@ -27,7 +27,7 @@ public class Main {
             for(int i=0; i<4; i++){
                 temp[i].incrPop();
                 for (int j = i+1; j<4; j++){
-                    if(temp[i].getPro().equal(temp[j].getPro())){
+                    if(temp[i].getPro().equals(temp[j].getPro())){
                         temp[i].setCon(temp[j], Integer.MAX_VALUE);
                         temp[j].setCon(temp[i], Integer.MAX_VALUE);
                     } else {
