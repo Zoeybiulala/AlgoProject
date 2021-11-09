@@ -1,15 +1,25 @@
-import java.util.ArrayList;
-/* Students class represent a student and its preference list and final registration
+/**
+ * Description: Student class storing the position it is in the array,
+ *              its preferred class list, the class list it successfully
+ *              enrolled and its student ID shown in the file
  * 
+ * Date Updated: Nov.9, 2021
+ * Author: Tianbo Yang, Yitian Cao, Xinran Liu
  */
+import java.util.*;
+
 public class Students {
-    //instances field
-    private int ID; //unique id for each student
-    private ArrayList<Courses> pref = new ArrayList<Courses>(); 
-                            //a list of final classes the student would take
+    /**
+     * ID: unique id for each student, the position it is in the array
+     * pref: a list of classes the student would like to take
+     * reg: a list of final classes the student would take
+     * name: the student ID it has read from the file
+     */
+    private int ID; 
+    private ArrayList<Courses> pref = new ArrayList<Courses>();        
     private ArrayList<Courses> reg = new ArrayList<Courses>(); 
-                            //a list of final classes the student would take
-    private String name;
+    private String name; 
+
     /* constructor
      * @param i, the unique id of the student
      */
@@ -19,13 +29,9 @@ public class Students {
         //reg is already initialized
     }
     
-    //getters and setters
+    /** getters */
     public int getID(){
         return ID;
-    }
-
-    public int getRegNum(){
-        return reg.size();
     }
 
     public ArrayList<Courses> getReg(){
@@ -40,7 +46,27 @@ public class Students {
         return name;
     }
 
-    //different ways to construct a student's preference list (as an array)
+    /** setters */
+    public void setID(int i){
+        ID = i;
+    }
+
+    public void setReg(ArrayList<Courses> r){
+        reg = r;
+    }
+
+    public void setPref(ArrayList<Courses> p){
+        pref = p;
+    }
+
+    public void setName(String n) {
+        name = n;
+    }
+
+    /**
+     * add the course read from the file to student's preference list
+     * @param c
+     */
     public void addPref(Courses c){
         pref.add(c);
     }
@@ -52,5 +78,11 @@ public class Students {
         reg.add(c);
     }
 
-    
+    /**
+     * get the number of courses student registered
+     * @return
+     */
+    public int getRegNum(){
+        return reg.size();
+    }
 }

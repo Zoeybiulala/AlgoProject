@@ -3,7 +3,7 @@
  *              Schedule classes into classrooms and time slots and enroll students in
  * 
  * Author: Tianbo Yang, Yitian Cao, Xinran Liu
- * Date Updated: Nov.8, 2021
+ * Date Updated: Nov.9, 2021
  */
 import java.io.*;
 import java.util.*;
@@ -25,7 +25,7 @@ public class Main {
     public static void setConflictTimes(){
         for(TimeSlots t: time){
             for(TimeSlots tt:time) {
-                if(t.isOverlapping(tt)){
+                if(t.isOverlapping(tt) && !t.equals(tt)){
                     t.addConflictTime(tt);
                     tt.addConflictTime(t);
                 }
@@ -368,7 +368,6 @@ public class Main {
                 if(isTime && isRoom && (!isTeachers)){
                     capacity = Integer.parseInt(info[1]);
                     TimeSlots[] emptyTimes = new TimeSlots[tsize];
-                     
                     room[roomCount] = new Rooms(roomCount, capacity, emptyTimes,info[0]);
                     ++ roomCount;
                 }
@@ -463,11 +462,12 @@ public class Main {
         String con = "constraints.txt";
         String pref = "student_prefs0.txt";
         String output = "output.txt";
-        readFile(con,pref);
-        getPopandCon();
-        scheduling();
-        enrollment();
-        int preferenceVal = outputSchedule(output);
+        readFile(con,pref); //reading input
+        getPopandCon(); //getting the popularity and conflict numbers
+        scheduling(); //output a possible schedule
+        enrollment(); //enroll students in
+        int preferenceVal = outputSchedule(output); //output the schedule in a file and get the preference value
+        //output result
         System.out.println("Student Preference Value: " + preferenceVal);
         System.out.println("Best Case Student Value: " + 4*stu.length);
         System.out.println("Fit percentage: " + 100* ((double)preferenceVal/(4*stu.length)) + "%");
