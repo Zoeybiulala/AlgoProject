@@ -70,6 +70,9 @@ public class Professors {
 
     //check if this professor and another professor is the same professor
     public boolean equals(Professors a){
+        if(this.name == null || a.getName()==null) {
+            return false;
+        }
         return (a.getName().equals(name));
     }
 }

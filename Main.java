@@ -168,7 +168,7 @@ public class Main {
         finalRoomID = -1;
         for(int i = 0; i < size; i++){
             for (int m = 0; m <2; m++){
-                if(temp[i][m].notScheduled()){
+                if(temp[i][m].notScheduled() || temp[i][m].getPro().getName()==null){
                     // if(temp[i][m].getName().equals("002151") || temp[i][m].getName().equals("011826")){
                     //     System.out.println(i+" "+m);
                     // }
@@ -342,12 +342,7 @@ public class Main {
                 classes = new Courses[csize];
   
             } else if (info[0].equals("Teachers")){
-                //psize = Integer.parseInt(info[1]);
                 professors = new HashMap<>();
-                // prof = new Professors[psize];
-                // for(int i = 0; i < psize; i++){
-                //     prof[i] = new Professors(i, "");
-                // }
                 isTeachers = true;
             } else {
                 if(isTime && (!isRoom)&&(!isTeachers)){ //we need to store the timeslots
@@ -372,14 +367,23 @@ public class Main {
                     ++ roomCount;
                 }
                 if(isTime && isRoom && isTeachers){
-                    classes[classCount] = new Courses(classCount, csize, tsize, info[0]);
-                    Professors p = new Professors(info[1]);
-                    if(!professors.containsKey(info[1])){
-                        professors.put(info[1],p);
+                    
+                    if(info.length>1){
+                        classes[classCount] = new Courses(classCount, csize, tsize, info[0]);
+                        Professors p = new Professors(info[1]);
+                        if(!professors.containsKey(info[1])){
+                            professors.put(info[1],p);
+                        }
+                        classes[classCount].setProf(p);
+                        professors.get(info[1]).addCourse(classes[classCount]);
+                        classCount++;
+                    } else {
+                        classes[classCount] = new Courses(classCount, csize, tsize, info[0]);
+                        Professors p = new Professors(null);
+                        classes[classCount].setProf(p);
+                        classCount++;
                     }
-                    classes[classCount].setProf(p);
-                    professors.get(info[1]).addCourse(classes[classCount]);
-                    classCount++;
+                    
                 }
             }
         }
@@ -393,14 +397,15 @@ public class Main {
         }
         int stuID;
         stuID = 0;
-        while((tmp = pre.readLine())!=null){ //deigai
+        while((tmp = pre.readLine())!=null){
             info = tmp.split("\\s+");
             stu[stuID] = new Students(stuID, info[0]);
             boolean hasClass = false;
             for(int i = 1; i < info.length; i++){
                 for(Courses c : stu[stuID].getPref()) {
                     if(c.getName().equals(info[i])){ //we have this class already
-                        hasClass = true;
+                        hasClass = true; // we might want to use this class again by 
+                                        //naming it as a new class since it's a lab or something
                     }
                 }
                 if(hasClass == false) {
@@ -459,9 +464,9 @@ public class Main {
 
     public static void main(String [] args) throws FileNotFoundException, IOException{
         long start = System.currentTimeMillis();
-        String con = "constraints.txt";
-        String pref = "student_prefs0.txt";
-        String output = "output.txt";
+        String con = args[0];
+        String pref = args[1];
+        String output = args[2];
         readFile(con,pref); //reading input
         getPopandCon(); //getting the popularity and conflict numbers
         scheduling(); //output a possible schedule
@@ -473,17 +478,6 @@ public class Main {
         System.out.println("Fit percentage: " + 100* ((double)preferenceVal/(4*stu.length)) + "%");
         long end = System.currentTimeMillis();
         System.out.println("Time used: " + (end-start));
-
-        // for(Courses c: classes){
-        //     if(c.getName().equals("002151")){
-        //         for(Courses a:classes){
-        //             if(a.getName().equals("011826")){
-        //                 System.out.println(c.getPro().equals(a.getPro()));
-        //                 System.out.println(c.getCConflict(a));
-        //             }
-        //         }
-        //     }
-        // }
     }
 
 }
