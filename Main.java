@@ -168,7 +168,7 @@ public class Main {
         finalRoomID = -1;
         for(int i = 0; i < size; i++){
             for (int m = 0; m <2; m++){
-                if(temp[i][m].notScheduled()){
+                if(temp[i][m].notScheduled() || temp[i][m].getPro().getName()==null){
                     // if(temp[i][m].getName().equals("002151") || temp[i][m].getName().equals("011826")){
                     //     System.out.println(i+" "+m);
                     // }
@@ -376,6 +376,11 @@ public class Main {
                         }
                         classes[classCount].setProf(p);
                         professors.get(info[1]).addCourse(classes[classCount]);
+                        classCount++;
+                    } else {
+                        classes[classCount] = new Courses(classCount, csize, tsize, info[0]);
+                        Professors p = new Professors(null);
+                        classes[classCount].setProf(p);
                         classCount++;
                     }
                     
