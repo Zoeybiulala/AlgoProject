@@ -1,4 +1,4 @@
-Class Times	63
+Class Times 270
 1    2:00 PM  4:00 PM M
 2    2:00 PM  4:00 PM T
 3    2:00 PM  4:00 PM TH

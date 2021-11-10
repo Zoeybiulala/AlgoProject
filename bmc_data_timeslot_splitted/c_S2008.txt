@@ -1,4 +1,4 @@
-Class Times	63
+Class Times 274
 1   10:00 AM 11:00 AM T
 2   10:00 AM 11:00 AM TH
 3   10:00 AM 11:00 AM W

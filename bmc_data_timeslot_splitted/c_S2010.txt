@@ -1,4 +1,4 @@
-Class Times	65
+Class Times 282
 1    7:00 PM  9:30 PM M
 2    7:00 PM  9:30 PM T
 3    7:00 PM  9:30 PM TH

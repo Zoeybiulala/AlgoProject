@@ -1,4 +1,4 @@
-Class Times	75
+Class Times 326
 1    9:10 AM 10:00 AM T
 2    9:10 AM 10:00 AM TH
 3    9:10 AM 10:00 AM W

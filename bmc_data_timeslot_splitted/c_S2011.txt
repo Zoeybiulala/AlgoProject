@@ -1,4 +1,4 @@
-Class Times	66
+Class Times 284
 1   12:00 PM  1:00 PM T
 2   12:00 PM  1:00 PM TH
 3   12:00 PM  1:00 PM W

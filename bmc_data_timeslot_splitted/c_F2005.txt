@@ -1,4 +1,4 @@
-Class Times	54
+Class Times 233
 1   10:00 AM 11:30 AM M
 2   10:00 AM 11:30 AM TH
 3   10:00 AM 11:30 AM W

@@ -1,4 +1,4 @@
-Class Times	59
+Class Times 259
 1   12:00 PM  2:00 PM M
 2   12:00 PM  2:00 PM T
 3   12:00 PM  2:00 PM TH

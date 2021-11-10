@@ -1,4 +1,4 @@
-Class Times	76
+Class Times 328
 1   12:45 PM  2:15 PM M
 2   12:45 PM  2:15 PM TH
 3   12:45 PM  2:15 PM W

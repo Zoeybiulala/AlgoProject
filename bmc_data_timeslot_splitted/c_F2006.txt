@@ -1,4 +1,4 @@
-Class Times	65
+Class Times 279
 1    9:00 AM 10:00 AM M
 2    9:00 AM 10:00 AM T
 3    9:00 AM 10:00 AM W

@@ -1,4 +1,4 @@
-Class Times	68
+Class Times 295
 1    7:30 PM  9:00 PM M
 2    7:30 PM  9:00 PM T
 3    7:30 PM  9:00 PM TH
