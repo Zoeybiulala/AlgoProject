@@ -41,21 +41,21 @@ if ($prefsfile) {
 
 my $classesperstudent = 4;
 
-if ($numclasses * $maxroomcapacity < $numstudents*4) {
-    print "The number of students must be less than the number of classes times one-forth the max room capacity (default 100, you can change the script to increase this.\n";
-    exit 1;
-}
+# if ($numclasses * $maxroomcapacity < $numstudents*) {
+#     print "The number of students must be less than the number of classes times one-forth the max room capacity (default 100, you can change the script to increase this.\n";
+#     exit 1;
+# }
 
-if ($numclasses > $numslots * $numrooms) {
-	print "The number of classes must be no greater than the number of time slots times the number of rooms in order for all classes to be scheduled.\n";
-	exit 1;
-}
+# if ($numclasses > $numslots * $numrooms) {
+# 	print "The number of classes must be no greater than the number of time slots times the number of rooms in order for all classes to be scheduled.\n";
+# 	exit 1;
+# }
 
-if ($numrooms * $maxroomcapacity * $numslots < 4 * $numstudents) {
-	print "The total room capacities over all time slots must be large enough to hold all the students for 4 classes.\n";
-	print "The current maximum room capacity is $maxroomcapacity - you can change the script to increase this.\n";
-	exit 1;
-}
+# if ($numrooms * $maxroomcapacity * $numslots < 4 * $numstudents) {
+# 	print "The total room capacities over all time slots must be large enough to hold all the students for 4 classes.\n";
+# 	print "The current maximum room capacity is $maxroomcapacity - you can change the script to increase this.\n";
+# 	exit 1;
+# }
 
 
 

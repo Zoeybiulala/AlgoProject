@@ -2,6 +2,8 @@
 import java.io.*;
 import java.util.*;
 
+import javax.management.timer.TimerNotification;
+
 
 public class Main {
     /*
@@ -12,6 +14,8 @@ public class Main {
     public static Professors [] prof;
     public static TimeSlots [] time;
     public static Rooms [] room;
+    public static int timeconflicts;
+    public static int capconflicts;
 
     /**
      * Calcualte the popularity of each courses by going through the 
@@ -36,6 +40,11 @@ public class Main {
                     }
                 }
             }
+        }
+        for(int i=0; i<prof.length;i++){
+            ArrayList<Courses> cs = prof[i].getTeach();
+            cs.get(0).setCon(cs.get(1),Integer.MAX_VALUE);
+            cs.get(0).setCon(cs.get(1),Integer.MAX_VALUE);
         }
     }
 
@@ -190,7 +199,10 @@ public class Main {
                 conflict = Integer.MAX_VALUE;
                 break;
             }
-            conflict += t.getCourse().get(i).getCConflict(c);
+            if(!(conflict == Integer.MAX_VALUE)){
+                conflict += t.getCourse().get(i).getCConflict(c);
+            }
+            
         }
         return conflict;
     }
@@ -202,14 +214,16 @@ public class Main {
             temp = s.getPref();
             for(int i=0; i<4; i++) {
                 for(int j=0; j<s.getRegNum(); j++) {
-                    int a = temp[j].getTime().getID();
-                    int b = temp[i].getTime().getID();
+                    int a = temp[i].getTime().getID();
+                    int b = s.getReg().get(j).getTime().getID();
                     if(a == b){
                         available = false;
                     }
                     
                 }
-                if((temp[i].getRoom().getCap() >= temp[i].getReg().size()) && available){
+                if(available == false) timeconflicts++;
+                if(temp[i].getRoom().getCap() <= temp[i].getReg().size()) capconflicts++;
+                if((temp[i].getRoom().getCap() > temp[i].getReg().size()) && available){
                     temp[i].addStu(s);
                     s.addReg(temp[i]);
                 }
@@ -337,6 +351,8 @@ public class Main {
         System.out.println("Fit percentage: " + 100* ((double)preferenceVal/(4*stu.length)) + "%");
         long end = System.currentTimeMillis();
         System.out.println("Time used: " + (end-start));
+        System.out.println("time conflict: " + timeconflicts);
+        System.out.println("capacity conflcit: " + capconflicts);
     }
 
 }
