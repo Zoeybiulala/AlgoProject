@@ -438,6 +438,9 @@ public class Main {
         for (int i = 0; i < classes.length; i++){
             preferenceVal += (classes[i].getReg()).size();
         }
+        //create the file if do not exist
+        File f = new File(file);
+        f.createNewFile();
         String stuID;
         BufferedWriter pw = new BufferedWriter(new FileWriter(file));
         String tmp = "";
@@ -472,12 +475,28 @@ public class Main {
         scheduling(); //output a possible schedule
         enrollment(); //enroll students in
         int preferenceVal = outputSchedule(output); //output the schedule in a file and get the preference value
+        long end = System.currentTimeMillis();
+        
         //output result
+        String [] info = con.split("/");
+        String record = info[0] + "/record.txt";
+        File f = new File(record);
+        f.createNewFile();
+        BufferedWriter pw = new BufferedWriter(new FileWriter(f, true));
+        String [] info2 = info[1].split("_");
+        String tmp = info2[1].replace(".txt", "");
+        pw.write(tmp + "\n");
+        pw.write("Student Preference Value: " + preferenceVal+ "\n");
+        pw.write("Best Case Student Value: " + 4*stu.length+ "\n");
+        pw.write("Fit percentage: " + 100* ((double)preferenceVal/(4*stu.length)) + "%"+ "\n");
+        pw.write("Time used: " + (end-start)+ "\n");
+        pw.flush();
+        pw.close();
+
+        //print in the terminal
         System.out.println("Student Preference Value: " + preferenceVal);
         System.out.println("Best Case Student Value: " + 4*stu.length);
         System.out.println("Fit percentage: " + 100* ((double)preferenceVal/(4*stu.length)) + "%");
-        long end = System.currentTimeMillis();
         System.out.println("Time used: " + (end-start));
     }
-
 }
