@@ -53,13 +53,15 @@ public class Main {
      * Count the number for each course who have the same student that 
      *  want to enroll into the course
      */
-    public static void getPopandCon(){
+    public static int getPopandCon(){
         //let the array of time slots be sorted by those has 
         // less conflicts with other time slot s to be assigned first
         setConflictTimes(); 
+        int count = 0;;
         ArrayList<Courses> temp = new ArrayList<Courses>(); 
         for(Students s: stu){
-            temp = s.getPref(); //get the preference list for each student 
+            temp = s.getPref(); //get the preference list for each student
+            count += temp.size();
             for(int i=0; i<temp.size(); i++){
                 //since the student want to enrool in the class, the popularity for
                 //such course will increase
@@ -91,6 +93,7 @@ public class Main {
                 }
             }
         }
+        return count;
     }
 
     /**
@@ -161,7 +164,7 @@ public class Main {
         sortRoom();
         Courses [][] temp = pairing();
         int size = temp.length; 
-        int finalCon, roomID, surplus, finalRoomID, finalT;
+        int finalCon, roomID, surplus, finalRoomID;
         finalCon = 0; 
         roomID = 0; 
         surplus = Integer.MIN_VALUE;
@@ -183,37 +186,70 @@ public class Main {
                             if (!room[k].isAssigned(time[j])){ 
                                 roomID = k; //record the index for the largest availble room
                                 k = room.length; //break
+                                //System.out.println(roomID);
                             }
                         }
                         //surplus is positive only happens when some class have more student want to enroll
                         // than the room's capacity
                         surplus = temp[i][m].getPop() - room[roomID].getCap();
+                        //System.out.println(surplus);
                         // record the larger from conflict number or the shortage of classroom capacity
                         finalCon = Math.max(surplus, sumOfConflict(time[j], temp[i][m]));
                         finalConlict[j] = finalCon;
+                        //System.out.println(finalCon);
                     }
-                    //find the timeslot with minimum conflict numbers 
-                    finalT = findMinCon(finalConlict);
-                    //schedule the course into the timeslot
-                    temp[i][m].setTime(time[finalT]); 
-                    //record the course into timeslot instances
-                    time[finalT].addClass(temp[i][m]);
+                    //find the timeslots with minimum conflict numbers 
+                    int [][] arr = findMinCon(finalConlict);
+                    int first = arr[0][0];
+                    int second = -1;
+                    time[first].addClass(temp[i][m]);
+                    temp[i][m].addTime(time[first]); 
+                    if(time[first].getDuration() < 200){
+                        //System.out.println("aaa");
+                        time[first].addClass(temp[i][m]);
+                        for(int k =  1; k < arr.length; k++){
+                            if(!time[arr[k][0]].isOverlapping(time[first]) && time[arr[k][0]].getDuration()<200){
+                                second = arr[k][0];
+                                //System.out.println(time[second].getDuration());
+                                temp[i][m].addTime(time[arr[k][0]]); 
+                                time[arr[k][0]].addClass(temp[i][m]);
+                                break;
+                            }
+                        }
+                    }
 
                     //finding the room to be assigned
                     finalRoomID = roomID; //initialize it first into the largest available room
                     //finding the smallest room can fit all students inside
                     for(int h = room.length-1; h >= 0; h--){
-                        if(room[h].getCap() >= temp[i][m].getPop() 
-                            && !room[h].isAssigned(time[finalT])){ 
-                            finalRoomID = h;
-                            break;
+                        if(temp[i][m].getTime().size()==1){
+                            if(room[h].getCap() >= temp[i][m].getPop() 
+                                && !room[h].isAssigned(time[first])){ 
+                                finalRoomID = h;
+                                break;
+                            }
+                        } else {
+                            if(room[h].getCap() >= temp[i][m].getPop() 
+                                && !room[h].isAssigned(time[first]) 
+                                    && !room[h].isAssigned(time[second])){ 
+                                finalRoomID = h;
+                                break;
+                            }
                         }
-                        finalRoomID = h; //??do we need this?
+                        finalRoomID = h;
                     }
                     //setting & scheduling
                     temp[i][m].setRoom(room[finalRoomID]);
-                    room[finalRoomID].setTime(time[finalT],finalT);
-                    room[finalRoomID].addCourse(temp[i][m], time[finalT]);
+                    if(second == -1){
+                        room[finalRoomID].setTime(time[first],first);
+                        room[finalRoomID].addCourse(temp[i][m], time[first]);
+                    } else {
+                        room[finalRoomID].setTime(time[first],first);
+                        room[finalRoomID].addCourse(temp[i][m], time[first]);
+                        room[finalRoomID].setTime(time[second],second);
+                        room[finalRoomID].addCourse(temp[i][m], time[second]);
+                    }
+                    
                 }
             }
         }
@@ -224,17 +260,20 @@ public class Main {
      * @param arr array storing the conflict numbers of some course with all time slots
      * @return the index of the array with the least conflict number
      */
-    public static int findMinCon(int [] arr){
-        int id = 0;
-        int min = arr[0];
-        for (int i = 1; i < arr.length; i++){
-            if(arr[i]<min){
-                id = i;
-                min = arr[i];
-            }
+    public static int[][] findMinCon(int [] arr){
+        int [][] tmp = new int[arr.length][2];
+        for(int i = 0; i < arr.length; i++){
+            tmp[i][0] = i;
+            tmp[i][1] = arr[i];
         }
-        if(min==Integer.MAX_VALUE) return -1;
-        return id;
+        Arrays.sort(tmp, new Comparator<int[]>() {
+            @Override
+                 //arguments to this method represent the arrays to be sorted   
+                public int compare(int [] a, int [] b){
+                    return Integer.compare(a[1], b[1]);
+                }
+        });
+        return tmp;
     }
 
     /**
@@ -252,10 +291,12 @@ public class Main {
             //thus will not be available
             if(t.getCourse().get(i).getPro().equals(c.getPro())){
                 conflict = Integer.MAX_VALUE;
+                //System.out.println(conflict);
                 break;
             }
             if(conflict != Integer.MAX_VALUE){
                 conflict += t.getCourse().get(i).getCConflict(c);
+                //System.out.println(conflict);
             }
         }
         //checking all timeslots overlapping with t and redo the process with them
@@ -263,12 +304,13 @@ public class Main {
             for (int i =0; i< tt.getCourse().size();i++) {
                 if(tt.getCourse().get(i).getPro().equals(c.getPro())){
                     conflict = Integer.MAX_VALUE;
+                    //System.out.println(conflict);
                     break;
                 }
                 if(conflict != Integer.MAX_VALUE){
                     conflict += tt.getCourse().get(i).getCConflict(c);
-                }
-                
+                    //System.out.println(conflict);
+                }  
             }
         }
         return conflict;
@@ -290,10 +332,17 @@ public class Main {
                     // if(temp.get(i).getName().equals("002855") || s.getReg().get(j).getName().equals("002855)")){
                     //     System.out.println(sCou+" "+i+" "+j);
                     // }
-                    TimeSlots a = temp.get(i).getTime();
-                    TimeSlots b = s.getReg().get(j).getTime();
-                    if(a.isOverlapping(b)){
-                        available = false;
+                    ArrayList<TimeSlots> a = temp.get(i).getTime();
+                    ArrayList<TimeSlots> b = s.getReg().get(j).getTime();
+                    for(TimeSlots aa: a){
+                        if(!available)
+                            break;
+                        for(TimeSlots bb: b){
+                            if(aa.isOverlapping(bb)){
+                                available = false;
+                                break;
+                            }
+                        }
                     }
                 }
                 //at temp.get(i) class, it is available
@@ -445,14 +494,23 @@ public class Main {
         BufferedWriter pw = new BufferedWriter(new FileWriter(file));
         String tmp = "";
         //formatting
-        tmp = "Course\tRoom\tTeacher\tTime\tStudents\n";
+        tmp = "Course\tRoom\tTeacher\tTime\t\tStudents\n";
         pw.write(tmp);
         tmp = "";
         for (int i = 0; i < classes.length; i++){
             ArrayList<Students> regList = classes[i].getReg();
-            tmp += classes[i].getName() + "\t" + (classes[i].getRoom().getName()) + "\t"
-                 + (classes[i].getPro().getName()) + "\t" 
-                    + (classes[i].getTime().getID() + 1) + "\t";
+            ArrayList<TimeSlots> timeList = classes[i].getTime();
+            if(timeList.size()==1){
+                tmp += classes[i].getName() + "\t" + (classes[i].getRoom().getName()) + "\t"
+                + (classes[i].getPro().getName()) + "\t" 
+                   + (classes[i].getTime().get(0).getID() + 1) + "\t";
+            } else {
+                tmp += classes[i].getName() + "\t" + (classes[i].getRoom().getName()) + "\t"
+                    + (classes[i].getPro().getName()) + "\t";
+                for(int j = 0; j<timeList.size(); j++){
+                       tmp += (classes[i].getTime().get(j).getID() + 1) + "\t";
+                }
+            }
             for (int j = 0; j < regList.size(); j++){
                 stuID = regList.get(j).getName();
                 tmp += stuID + " " ; 
@@ -467,11 +525,14 @@ public class Main {
 
     public static void main(String [] args) throws FileNotFoundException, IOException{
         long start = System.currentTimeMillis();
+        // String con = "AlgoProject/bmc_data_timeslot_splitted/c_F2000.txt";
+        // String pref = "AlgoProject/bmc_data_timeslot_splitted/sf_F2000.txt";
+        // String output = "AlgoProject/bmc_data_timeslot_splitted/output_F2000.txt";
         String con = args[0];
         String pref = args[1];
         String output = args[2];
         readFile(con,pref); //reading input
-        getPopandCon(); //getting the popularity and conflict numbers
+        int count = getPopandCon(); //getting the popularity and conflict numbers
         scheduling(); //output a possible schedule
         enrollment(); //enroll students in
         int preferenceVal = outputSchedule(output); //output the schedule in a file and get the preference value
@@ -487,16 +548,16 @@ public class Main {
         String tmp = info2[1].replace(".txt", "");
         pw.write(tmp + "\n");
         pw.write("Student Preference Value: " + preferenceVal+ "\n");
-        pw.write("Best Case Student Value: " + 4*stu.length+ "\n");
-        pw.write("Fit percentage: " + 100* ((double)preferenceVal/(4*stu.length)) + "%"+ "\n");
+        pw.write("Best Case Student Value: " + count + "\n");
+        pw.write("Fit percentage: " + 100* ((double)preferenceVal/count) + "%"+ "\n");
         pw.write("Time used: " + (end-start)+ "\n");
         pw.flush();
         pw.close();
 
         //print in the terminal
         System.out.println("Student Preference Value: " + preferenceVal);
-        System.out.println("Best Case Student Value: " + 4*stu.length);
-        System.out.println("Fit percentage: " + 100* ((double)preferenceVal/(4*stu.length)) + "%");
+        System.out.println("Best Case Student Value: " + count);
+        System.out.println("Fit percentage: " + 100* ((double)preferenceVal/count) + "%");
         System.out.println("Time used: " + (end-start));
     }
 }

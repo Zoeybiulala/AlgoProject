@@ -9,7 +9,7 @@ public class Courses{
     private Professors prof; // the professor who will teach the class
     private int popularity; // the number of students who want to take this class
     private Rooms room; // the assigned room for this class
-    private TimeSlots time; //the assigned time for this class
+    private ArrayList<TimeSlots> time = new ArrayList<TimeSlots>(); //the assigned time for this class
     private int [] classConflict; //the index of the array is the each class and the value represents
                                   //the conflict number of this class with the class at certain index
     private int [] finalConflict; //the index of the array is the time slot and the value represents
@@ -28,7 +28,6 @@ public class Courses{
         prof = null;
         popularity = 0;
         room = null;
-        time = null;
         name = n;
     }
 
@@ -53,7 +52,7 @@ public class Courses{
         return prof;
     }
 
-    public TimeSlots getTime(){
+    public ArrayList<TimeSlots> getTime(){
         return time;
     }
 
@@ -101,7 +100,7 @@ public class Courses{
         room = r;
     }
 
-    public void setTime(TimeSlots t){
+    public void setTime(ArrayList<TimeSlots> t){
         time = t;
     }
 
@@ -130,6 +129,11 @@ public class Courses{
     //add a student s to the registration list 
     public void addStu(Students s){
         registrationList.add(s);
+    }
+
+    //add a single timeSlots to the course
+    public void addTime(TimeSlots t){
+        time.add(t);
     }
 
     //to see if the class is scheduled or not
