@@ -177,7 +177,7 @@ public class Main {
                     // }
 
                     // storing the final conflict some courses in all time slots
-                    int [] finalConlict = new int[time.length]; 
+                    int [] finalConflict = new int[time.length]; 
                     for(int j = 0; j < time.length; j++){
                         // find the largest available room
                         // we only need to first the first available room since the array is 
@@ -195,11 +195,11 @@ public class Main {
                         //System.out.println(surplus);
                         // record the larger from conflict number or the shortage of classroom capacity
                         finalCon = Math.max(surplus, sumOfConflict(time[j], temp[i][m]));
-                        finalConlict[j] = finalCon;
+                        finalConflict[j] = finalCon;
                         //System.out.println(finalCon);
                     }
                     //find the timeslots with minimum conflict numbers 
-                    int [][] arr = findMinCon(finalConlict);
+                    int [][] arr = findMinCon(finalConflict);
                     int first = arr[0][0];
                     int second = -1;
                     time[first].addClass(temp[i][m]);

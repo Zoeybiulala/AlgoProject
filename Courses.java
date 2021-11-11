@@ -138,7 +138,7 @@ public class Courses{
 
     //to see if the class is scheduled or not
     public boolean notScheduled(){
-        return (time==null)||(room==null);
+        return (time.size()==0)||(room==null);
     }
 
 }

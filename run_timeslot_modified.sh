@@ -2,7 +2,7 @@
 
 set -o errexit
 DIR="bmc_data_timeslot_splitted"
-for ((i = 0 ; i < 9 ; i++)); do
+for ((i = 0 ; i <= 9 ; i++)); do
     if [ $i == 0 ]
     then
         java Main.java "$DIR/c_F200$i.txt" "$DIR/sf_F200$i.txt" "$DIR/output_F200$i.txt"
