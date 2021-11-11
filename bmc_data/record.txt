@@ -140,3 +140,9 @@ Fit percentage: 63.961605584642236%
 Time used: 345
 Average Percentage Fit is: 70.54% 
 Average Time Taken is: 245.89
+Average Percentage Fit is: 70.54% 
+Average Time Taken is: 245.89
+Average Percentage Fit is: 95.88% 
+Average Time Taken is: 540.68
+Average Percentage Fit is: 95.88% 
+Average Time Taken is: 540.68

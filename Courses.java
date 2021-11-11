@@ -11,7 +11,7 @@ public class Courses{
     private Rooms room; // the assigned room for this class
     private ArrayList<Rooms> validRooms = new ArrayList<Rooms>(); 
                     //list of valid rooms this class can be taught in
-    private TimeSlots time; //the assigned time for this class
+    private ArrayList<TimeSlots> time = new ArrayList<TimeSlots>(); //the assigned time for this class
     private int [] classConflict; //the index of the array is the each class and the value represents
                                   //the conflict number of this class with the class at certain index
     private int [] finalConflict; //the index of the array is the time slot and the value represents
@@ -32,7 +32,6 @@ public class Courses{
         prof = null;
         popularity = 0;
         room = null;
-        time = null;
         name = n;
         subject = null;
         lab = false;
@@ -63,7 +62,7 @@ public class Courses{
         return prof;
     }
 
-    public TimeSlots getTime(){
+    public ArrayList<TimeSlots> getTime(){
         return time;
     }
 
@@ -123,7 +122,7 @@ public class Courses{
         validRooms = vR;
     }
 
-    public void setTime(TimeSlots t){
+    public void setTime(ArrayList<TimeSlots> t){
         time = t;
     }
 
@@ -162,9 +161,14 @@ public class Courses{
         registrationList.add(s);
     }
 
+    //add a single timeSlots to the course
+    public void addTime(TimeSlots t){
+        time.add(t);
+    }
+
     //to see if the class is scheduled or not
     public boolean notScheduled(){
-        return (time==null)||(room==null);
+        return (time.size()==0)||(room==null);
     }
 
     //evaluates whether the class has a lab section based on subject

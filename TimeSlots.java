@@ -26,6 +26,7 @@ public class TimeSlots {
     private int end;
     private boolean[] weekdays;
     private ArrayList<TimeSlots> conflictTimes = new ArrayList<TimeSlots>();
+    private int duration;
     
     // /**
     //  * constructors of TimeSlots
@@ -103,6 +104,7 @@ public class TimeSlots {
                 weekdays[4] = true;
             }
         }
+        duration = end - start;
     }
 
     /** setters */
@@ -138,6 +140,10 @@ public class TimeSlots {
         return conflictTimes;
     }
 
+    public int getDuration(){
+        return duration;
+    }
+    
     /**
      * find the class assigned to the given room 
      * @param r the given room
