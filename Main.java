@@ -53,16 +53,13 @@ public class Main {
      * Count the number for each course who have the same student that 
      *  want to enroll into the course
      */
-    public static int getPopandCon(){
+    public static void getPopandCon(){
         //let the array of time slots be sorted by those has 
         // less conflicts with other time slot s to be assigned first
         setConflictTimes(); 
-        //use an int to calculate the max preference value
-        int count = 0;
         ArrayList<Courses> temp = new ArrayList<Courses>(); 
         for(Students s: stu){
             temp = s.getPref(); //get the preference list for each student 
-            count += temp.size();
             for(int i=0; i<temp.size(); i++){
                 //since the student want to enrool in the class, the popularity for
                 //such course will increase
@@ -94,7 +91,6 @@ public class Main {
                 }
             }
         }
-        return count;
     }
 
     /**
@@ -178,13 +174,14 @@ public class Main {
                     // }
 
                     // storing the final conflict some courses in all time slots
-                    int [] finalConlict = new int[time.length]; 
+                    int [] finalConflict = new int[time.length]; 
                     for(int j = 0; j < time.length; j++){
                         // find the largest available room
                         // we only need to first the first available room since the array is 
                         // alreay sorted by its capacity
                         for (int k = 0; k < room.length; k++){ 
-                            if (!room[k].isAssigned(time[j])){ 
+                            if (!room[k].isAssigned(time[j])
+                                && temp[i][m].getValidRooms().contains(room[k])){ 
                                 roomID = k; //record the index for the largest availble room
                                 k = room.length; //break
                             }
@@ -194,10 +191,10 @@ public class Main {
                         surplus = temp[i][m].getPop() - room[roomID].getCap();
                         // record the larger from conflict number or the shortage of classroom capacity
                         finalCon = Math.max(surplus, sumOfConflict(time[j], temp[i][m]));
-                        finalConlict[j] = finalCon;
+                        finalConflict[j] = finalCon;
                     }
                     //find the timeslot with minimum conflict numbers 
-                    finalT = findMinCon(finalConlict);
+                    finalT = findMinCon(finalConflict);
                     //schedule the course into the timeslot
                     temp[i][m].setTime(time[finalT]); 
                     //record the course into timeslot instances
@@ -208,7 +205,8 @@ public class Main {
                     //finding the smallest room can fit all students inside
                     for(int h = room.length-1; h >= 0; h--){
                         if(room[h].getCap() >= temp[i][m].getPop() 
-                            && !room[h].isAssigned(time[finalT])){ 
+                            && !room[h].isAssigned(time[finalT])
+                            && temp[i][m].getValidRooms().contains(room[h])){ 
                             finalRoomID = h;
                             break;
                         }
@@ -367,7 +365,7 @@ public class Main {
                 if(isTime && isRoom && (!isTeachers)){
                     capacity = Integer.parseInt(info[1]);
                     TimeSlots[] emptyTimes = new TimeSlots[tsize];
-                    room[roomCount] = new Rooms(roomCount, capacity, emptyTimes,info[0]);
+                    room[roomCount] = new Rooms(capacity, emptyTimes,info[0]);
                     ++ roomCount;
                 }
                 if(isTime && isRoom && isTeachers){
@@ -380,6 +378,18 @@ public class Main {
                         }
                         classes[classCount].setProf(p);
                         professors.get(info[1]).addCourse(classes[classCount]);
+                        classes[classCount].setSubject(info[2]);
+                        classes[classCount].toLab();
+                        ArrayList<Rooms> validRooms=new ArrayList<Rooms>();
+                        for(int k=3; k<info.length; k++){
+                            for(int j=0; j<room.length; j++){
+                                if(info[k].equals(room[j].getName())){
+                                    validRooms.add(room[j]);
+                                    break;
+                                }
+                            }
+                        }
+                        classes[classCount].setValidRooms(validRooms);
                         classCount++;
                     } else {
                         classes[classCount] = new Courses(classCount, csize, tsize, info[0]);
@@ -475,7 +485,7 @@ public class Main {
         String pref = args[1];
         String output = args[2];
         readFile(con,pref); //reading input
-        int count = getPopandCon(); //getting the popularity and conflict numbers
+        getPopandCon(); //getting the popularity and conflict numbers
         scheduling(); //output a possible schedule
         enrollment(); //enroll students in
         int preferenceVal = outputSchedule(output); //output the schedule in a file and get the preference value
@@ -483,24 +493,24 @@ public class Main {
         
         //output result
         String [] info = con.split("/");
-        String record = info[0] + "/record.txt";
+        String record = info[info.length-2] + "/record.txt";
         File f = new File(record);
         f.createNewFile();
         BufferedWriter pw = new BufferedWriter(new FileWriter(f, true));
-        String [] info2 = info[1].split("_");
+        String [] info2 = info[info.length-1].split("_");
         String tmp = info2[1].replace(".txt", "");
         pw.write(tmp + "\n");
         pw.write("Student Preference Value: " + preferenceVal+ "\n");
-        pw.write("Best Case Student Value: " + count + "\n");
-        pw.write("Fit percentage: " + 100* ((double)preferenceVal/(double)count) + "%"+ "\n");
+        pw.write("Best Case Student Value: " + 4*stu.length+ "\n");
+        pw.write("Fit percentage: " + 100* ((double)preferenceVal/(4*stu.length)) + "%"+ "\n");
         pw.write("Time used: " + (end-start)+ "\n");
         pw.flush();
         pw.close();
 
         //print in the terminal
         System.out.println("Student Preference Value: " + preferenceVal);
-        System.out.println("Best Case Student Value: " + count);
-        System.out.println("Fit percentage: " + 100* ((double)preferenceVal/(double)count) + "%");
+        System.out.println("Best Case Student Value: " + 4*stu.length);
+        System.out.println("Fit percentage: " + 100* ((double)preferenceVal/(4*stu.length)) + "%");
         System.out.println("Time used: " + (end-start));
     }
 }

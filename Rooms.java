@@ -16,7 +16,7 @@ public class Rooms {
      * time: an array of all timeslots and each index is the timeslots id, 
      *         storing the class at that tine and in the room
      */
-    private int ID; 
+    private int ID;
     private String name;
     private int capacity; 
     private Courses [] course; 
@@ -30,8 +30,7 @@ public class Rooms {
      *              storing the class at that tine and in the room
      * @param n name of each class room, i.e., position + room number
      */
-    public Rooms (int i, int c, TimeSlots [] t,String n){
-        ID = i;
+    public Rooms (int c, TimeSlots [] t,String n){
         capacity = c;
         time= t;
         course = new Courses[t.length];
@@ -39,10 +38,6 @@ public class Rooms {
     }
 
     /** getters */
-    public int getID(){
-        return ID;
-    }
-
     public int getCap(){
         return capacity;
     }
@@ -58,12 +53,12 @@ public class Rooms {
     public String getName() {
         return name;
     }
-
-    /** setters */
-    public void setID(int i){
-        ID = i;
+    
+    public int getID(){
+        return ID;
     }
 
+    /** setters */
     public void setCap(int c){
         capacity = c;
     }
@@ -82,6 +77,10 @@ public class Rooms {
 
     public void setTime(TimeSlots t, int timeID){
         time[timeID] = t;
+    }
+
+    public void setID(int i){
+        ID = i;
     }
 
     /**
