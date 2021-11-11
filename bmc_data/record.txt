@@ -1,262 +1,142 @@
 F2000
 Student Preference Value: 3284
-Best Case Student Value: 4448
-Fit percentage: 73.83093525179856%
-Time used: 112
-F2001
-Student Preference Value: 3344
-Best Case Student Value: 4392
-Fit percentage: 76.13843351548269%
-Time used: 111
-S2001
-Student Preference Value: 3068
-Best Case Student Value: 4324
-Fit percentage: 70.95282146160962%
-Time used: 107
-F2002
-Student Preference Value: 3277
-Best Case Student Value: 4360
-Fit percentage: 75.16055045871559%
-Time used: 132
-S2002
-Student Preference Value: 3054
-Best Case Student Value: 4220
-Fit percentage: 72.3696682464455%
-Time used: 111
-F2003
-Student Preference Value: 3323
-Best Case Student Value: 4416
-Fit percentage: 75.24909420289855%
+Best Case Student Value: 3509
+Fit percentage: 93.58791678540895%
 Time used: 109
-S2003
-Student Preference Value: 3074
-Best Case Student Value: 4216
-Fit percentage: 72.91271347248576%
-Time used: 102
-F2004
-Student Preference Value: 3491
-Best Case Student Value: 4500
-Fit percentage: 77.57777777777778%
-Time used: 127
-S2004
-Student Preference Value: 2981
-Best Case Student Value: 4184
-Fit percentage: 71.24760994263862%
-Time used: 107
-F2005
-Student Preference Value: 3458
-Best Case Student Value: 4508
-Fit percentage: 76.70807453416148%
-Time used: 102
-S2005
-Student Preference Value: 3275
-Best Case Student Value: 4392
-Fit percentage: 74.56739526411657%
-Time used: 105
-F2006
-Student Preference Value: 3574
-Best Case Student Value: 4668
-Fit percentage: 76.56383890317052%
-Time used: 125
-S2006
-Student Preference Value: 3219
-Best Case Student Value: 4328
-Fit percentage: 74.37615526802219%
-Time used: 134
-F2007
-Student Preference Value: 3661
-Best Case Student Value: 4592
-Fit percentage: 79.72560975609755%
-Time used: 117
-S2007
-Student Preference Value: 3495
-Best Case Student Value: 4432
-Fit percentage: 78.85830324909747%
-Time used: 134
-F2008
-Student Preference Value: 3333
-Best Case Student Value: 4852
-Fit percentage: 68.69332234130255%
-Time used: 130
-S2008
-Student Preference Value: 3441
-Best Case Student Value: 4584
-Fit percentage: 75.06544502617801%
-Time used: 121
-F2010
-Student Preference Value: 3932
-Best Case Student Value: 5900
-Fit percentage: 66.64406779661017%
-Time used: 136
-S2010
-Student Preference Value: 3482
-Best Case Student Value: 5552
-Fit percentage: 62.716138328530256%
-Time used: 139
-F2011
-Student Preference Value: 4201
-Best Case Student Value: 6400
-Fit percentage: 65.640625%
-Time used: 134
-S2011
-Student Preference Value: 4014
-Best Case Student Value: 6112
-Fit percentage: 65.67408376963351%
-Time used: 138
-F2012
-Student Preference Value: 4182
-Best Case Student Value: 6636
-Fit percentage: 63.01989150090416%
-Time used: 144
-S2012
-Student Preference Value: 4442
-Best Case Student Value: 6792
-Fit percentage: 65.40047114252062%
-Time used: 140
-F2013
-Student Preference Value: 4188
-Best Case Student Value: 6576
-Fit percentage: 63.68613138686131%
-Time used: 169
-S2013
-Student Preference Value: 4583
-Best Case Student Value: 6924
-Fit percentage: 66.19006354708262%
-Time used: 153
-S2014
-Student Preference Value: 4399
-Best Case Student Value: 6876
-Fit percentage: 63.976148923792906%
-Time used: 157
-
-Average Percentage Fit is: 71.27% 
-Average Time Taken is: 126.77F2000
-Student Preference Value: 3284
-Best Case Student Value: 4448
-Fit percentage: 73.83093525179856%
-Time used: 115
 F2001
 Student Preference Value: 3344
-Best Case Student Value: 4392
-Fit percentage: 76.13843351548269%
+Best Case Student Value: 3554
+Fit percentage: 94.09116488463702%
 Time used: 101
 S2001
 Student Preference Value: 3068
-Best Case Student Value: 4324
-Fit percentage: 70.95282146160962%
-Time used: 110
+Best Case Student Value: 3247
+Fit percentage: 94.48721897135817%
+Time used: 103
 F2002
 Student Preference Value: 3277
-Best Case Student Value: 4360
-Fit percentage: 75.16055045871559%
-Time used: 107
+Best Case Student Value: 3579
+Fit percentage: 91.56188879575299%
+Time used: 116
 S2002
 Student Preference Value: 3054
-Best Case Student Value: 4220
-Fit percentage: 72.3696682464455%
-Time used: 112
+Best Case Student Value: 3215
+Fit percentage: 94.99222395023328%
+Time used: 95
 F2003
 Student Preference Value: 3323
-Best Case Student Value: 4416
-Fit percentage: 75.24909420289855%
-Time used: 113
+Best Case Student Value: 3551
+Fit percentage: 93.57927344410025%
+Time used: 105
 S2003
 Student Preference Value: 3074
-Best Case Student Value: 4216
-Fit percentage: 72.91271347248576%
-Time used: 129
+Best Case Student Value: 3228
+Fit percentage: 95.22924411400247%
+Time used: 106
 F2004
 Student Preference Value: 3491
-Best Case Student Value: 4500
-Fit percentage: 77.57777777777778%
-Time used: 109
+Best Case Student Value: 3700
+Fit percentage: 94.35135135135135%
+Time used: 113
 S2004
 Student Preference Value: 2981
-Best Case Student Value: 4184
-Fit percentage: 71.24760994263862%
-Time used: 102
+Best Case Student Value: 3102
+Fit percentage: 96.09929078014184%
+Time used: 99
 F2005
 Student Preference Value: 3458
-Best Case Student Value: 4508
-Fit percentage: 76.70807453416148%
-Time used: 102
+Best Case Student Value: 3680
+Fit percentage: 93.96739130434783%
+Time used: 122
 S2005
 Student Preference Value: 3275
-Best Case Student Value: 4392
-Fit percentage: 74.56739526411657%
-Time used: 128
+Best Case Student Value: 3344
+Fit percentage: 97.93660287081339%
+Time used: 116
 F2006
 Student Preference Value: 3574
-Best Case Student Value: 4668
-Fit percentage: 76.56383890317052%
-Time used: 126
+Best Case Student Value: 3798
+Fit percentage: 94.102159031069%
+Time used: 124
 S2006
 Student Preference Value: 3219
-Best Case Student Value: 4328
-Fit percentage: 74.37615526802219%
-Time used: 120
+Best Case Student Value: 3237
+Fit percentage: 99.44392956441149%
+Time used: 121
 F2007
 Student Preference Value: 3661
-Best Case Student Value: 4592
-Fit percentage: 79.72560975609755%
-Time used: 120
+Best Case Student Value: 3862
+Fit percentage: 94.79544277576385%
+Time used: 112
 S2007
 Student Preference Value: 3495
-Best Case Student Value: 4432
-Fit percentage: 78.85830324909747%
-Time used: 120
+Best Case Student Value: 3523
+Fit percentage: 99.20522282145899%
+Time used: 146
 F2008
 Student Preference Value: 3333
-Best Case Student Value: 4852
-Fit percentage: 68.69332234130255%
-Time used: 126
+Best Case Student Value: 3474
+Fit percentage: 95.9412780656304%
+Time used: 134
 S2008
 Student Preference Value: 3441
-Best Case Student Value: 4584
-Fit percentage: 75.06544502617801%
-Time used: 143
+Best Case Student Value: 3443
+Fit percentage: 99.94191112401975%
+Time used: 112
+F2009
+Student Preference Value: 3554
+Best Case Student Value: 3670
+Fit percentage: 96.8392370572207%
+Time used: 113
+S2009
+Student Preference Value: 3380
+Best Case Student Value: 3386
+Fit percentage: 99.82279976373302%
+Time used: 166
 F2010
 Student Preference Value: 3932
-Best Case Student Value: 5900
-Fit percentage: 66.64406779661017%
-Time used: 170
+Best Case Student Value: 4090
+Fit percentage: 96.13691931540342%
+Time used: 131
 S2010
 Student Preference Value: 3482
-Best Case Student Value: 5552
-Fit percentage: 62.716138328530256%
-Time used: 130
+Best Case Student Value: 3482
+Fit percentage: 100.0%
+Time used: 136
 F2011
 Student Preference Value: 4201
-Best Case Student Value: 6400
-Fit percentage: 65.640625%
-Time used: 161
+Best Case Student Value: 4340
+Fit percentage: 96.79723502304147%
+Time used: 134
 S2011
 Student Preference Value: 4014
-Best Case Student Value: 6112
-Fit percentage: 65.67408376963351%
-Time used: 176
+Best Case Student Value: 4017
+Fit percentage: 99.92531740104556%
+Time used: 146
 F2012
 Student Preference Value: 4182
-Best Case Student Value: 6636
-Fit percentage: 63.01989150090416%
-Time used: 141
+Best Case Student Value: 4337
+Fit percentage: 96.42610099146876%
+Time used: 145
 S2012
 Student Preference Value: 4442
-Best Case Student Value: 6792
-Fit percentage: 65.40047114252062%
-Time used: 179
+Best Case Student Value: 4442
+Fit percentage: 100.0%
+Time used: 162
 F2013
 Student Preference Value: 4188
-Best Case Student Value: 6576
-Fit percentage: 63.68613138686131%
-Time used: 215
+Best Case Student Value: 4341
+Fit percentage: 96.47546648237734%
+Time used: 143
 S2013
 Student Preference Value: 4583
-Best Case Student Value: 6924
-Fit percentage: 66.19006354708262%
-Time used: 203
+Best Case Student Value: 4585
+Fit percentage: 99.95637949836423%
+Time used: 168
 S2014
 Student Preference Value: 4399
-Best Case Student Value: 6876
-Fit percentage: 63.976148923792906%
-Time used: 160
+Best Case Student Value: 4399
+Fit percentage: 100.0%
+Time used: 175
+Average Percentage Fit is: 96.63% 
+Average Time Taken is: 126.89
