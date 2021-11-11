@@ -53,13 +53,16 @@ public class Main {
      * Count the number for each course who have the same student that 
      *  want to enroll into the course
      */
-    public static void getPopandCon(){
+    public static int getPopandCon(){
         //let the array of time slots be sorted by those has 
         // less conflicts with other time slot s to be assigned first
         setConflictTimes(); 
+        //use an int to calculate the max preference value
+        int count = 0;
         ArrayList<Courses> temp = new ArrayList<Courses>(); 
         for(Students s: stu){
             temp = s.getPref(); //get the preference list for each student 
+            count += temp.size();
             for(int i=0; i<temp.size(); i++){
                 //since the student want to enrool in the class, the popularity for
                 //such course will increase
@@ -91,6 +94,7 @@ public class Main {
                 }
             }
         }
+        return count;
     }
 
     /**
@@ -471,7 +475,7 @@ public class Main {
         String pref = args[1];
         String output = args[2];
         readFile(con,pref); //reading input
-        getPopandCon(); //getting the popularity and conflict numbers
+        int count = getPopandCon(); //getting the popularity and conflict numbers
         scheduling(); //output a possible schedule
         enrollment(); //enroll students in
         int preferenceVal = outputSchedule(output); //output the schedule in a file and get the preference value
@@ -487,16 +491,16 @@ public class Main {
         String tmp = info2[1].replace(".txt", "");
         pw.write(tmp + "\n");
         pw.write("Student Preference Value: " + preferenceVal+ "\n");
-        pw.write("Best Case Student Value: " + 4*stu.length+ "\n");
-        pw.write("Fit percentage: " + 100* ((double)preferenceVal/(4*stu.length)) + "%"+ "\n");
+        pw.write("Best Case Student Value: " + count + "\n");
+        pw.write("Fit percentage: " + 100* ((double)preferenceVal/(double)count) + "%"+ "\n");
         pw.write("Time used: " + (end-start)+ "\n");
         pw.flush();
         pw.close();
 
         //print in the terminal
         System.out.println("Student Preference Value: " + preferenceVal);
-        System.out.println("Best Case Student Value: " + 4*stu.length);
-        System.out.println("Fit percentage: " + 100* ((double)preferenceVal/(4*stu.length)) + "%");
+        System.out.println("Best Case Student Value: " + count);
+        System.out.println("Fit percentage: " + 100* ((double)preferenceVal/(double)count) + "%");
         System.out.println("Time used: " + (end-start));
     }
 }
