@@ -388,3 +388,5 @@ Student Preference Value: 4399
 Best Case Student Value: 4399
 Fit percentage: 100.0%
 Time used: 245
+Average Percentage Fit is: 79.71% 
+Average Time Taken is: 309.85

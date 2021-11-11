@@ -1,5 +1,6 @@
 import re
-f = open('bmc_data/record.txt', 'r')
+dir = 'bmc_data_timeslot_splitted'
+f = open(dir + '/record.txt', 'r')
 line = f.readline()
 totalPercent = 0
 totalTime = 0
@@ -14,7 +15,7 @@ while line != '':
 f.close()
 percent = totalPercent/float(count)
 time = totalTime/float(count)
-fw = open('bmc_data/record.txt', 'a')
+fw = open(dir + '/record.txt', 'a')
 string = '{:.2f}'.format(percent)
 fw.write('Average Percentage Fit is: ' + string + '% \n')
 string = '{:.2f}'.format(time)
