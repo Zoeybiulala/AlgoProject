@@ -6,7 +6,7 @@ beforehand, you need to ensure there is a record.txt in your code sources file a
 
 i.e.: 
 1. check bmc_data to find the record.txt file and ensure it is empty
-2. ensure you are in the right directory, i,e, no-location-constraint, 
+2. ensure you are in the right directory, i,e, with-location-constraint, 
 3. type sh run_main.sh
 
 To get a overall report, you will need to run readRecord.py. 
