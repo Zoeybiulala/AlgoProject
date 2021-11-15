@@ -18,7 +18,7 @@ public class Courses{
                                   //a value that represents the conflict score at the given time slot
     private String name;
     private String subject; //the subject for this class determines the lab room assignment
-    private boolean lab; //does this class have a lab
+    private boolean lab = false; //does this class have a lab
     /* Constructor
      * @param i, the id of the course
      * @param cap, the number of classes to be scheduled
@@ -128,10 +128,11 @@ public class Courses{
 
     public void setSubject(String s){
         subject = s;
+        toLab();
     }
 
     public void setLab(boolean l){
-        lab = l;
+        lab = true;
     }
 
     //increment popularity of the class

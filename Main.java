@@ -17,6 +17,7 @@ public class Main {
     public static HashMap<String,Professors> professors;
     public static TimeSlots [] time;
     public static Rooms [] room;
+    public static Rooms [][] lab;
 
     /**
      * For each Time slot, checking all other times slots and record
