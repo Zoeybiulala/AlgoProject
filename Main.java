@@ -172,10 +172,6 @@ public class Main {
         for(int i = 0; i < size; i++){
             for (int m = 0; m <2; m++){
                 if(temp[i][m].notScheduled() || temp[i][m].getPro().getName()==null){
-                    // if(temp[i][m].getName().equals("002151") || temp[i][m].getName().equals("011826")){
-                    //     System.out.println(i+" "+m);
-                    // }
-
                     // storing the final conflict some courses in all time slots
                     int [] finalConflict = new int[time.length]; 
                     for(int j = 0; j < time.length; j++){
@@ -213,7 +209,7 @@ public class Main {
                             finalRoomID = h;
                             break;
                         }
-                        finalRoomID = h; //??do we need this?
+                        finalRoomID = h;
                     }
                     //setting & scheduling
                     temp[i][m].setRoom(room[finalRoomID]);
