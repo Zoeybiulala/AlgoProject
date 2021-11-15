@@ -19,6 +19,7 @@ public class Courses{
     private String name;
     private String subject; //the subject for this class determines the lab room assignment
     private boolean lab = false; //does this class have a lab
+    private String labRoom;
     /* Constructor
      * @param i, the id of the course
      * @param cap, the number of classes to be scheduled
@@ -35,6 +36,7 @@ public class Courses{
         name = n;
         subject = null;
         lab = false;
+        labRoom = null;
     }
 
     //getters and setters
@@ -68,6 +70,10 @@ public class Courses{
 
     public String getSubject(){
         return subject;
+    }
+
+    public String getLabRoom(){
+        return labRoom;
     }
 
     public boolean hasLab(){
@@ -133,6 +139,10 @@ public class Courses{
 
     public void setLab(boolean l){
         lab = true;
+    }
+
+    public void setLabRoom(String roomName){
+        labRoom = roomName;
     }
 
     //increment popularity of the class

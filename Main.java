@@ -156,13 +156,56 @@ public class Main {
         });
     }
 
+    /* 
+    * Initializing 2D array of lab rooms 
+    * 7 subjects require labs
+    * each subject has 2 lab rooms 
+    */
+    public static void setLabRooms(int numTimeSlots){
+        int labCap=room[0].getCap();
+        lab[0][0]=new Rooms(labCap, new TimeSlots[numTimeSlots], "MATHLAB1");
+        lab[0][1]=new Rooms(labCap, new TimeSlots[numTimeSlots], "MATHLAB2");
+        lab[1][0]=new Rooms(labCap, new TimeSlots[numTimeSlots], "CHEMLAB1");
+        lab[1][1]=new Rooms(labCap, new TimeSlots[numTimeSlots], "CHEMLAB2");
+        lab[2][0]=new Rooms(labCap, new TimeSlots[numTimeSlots], "PSYCLAB1");
+        lab[2][1]=new Rooms(labCap, new TimeSlots[numTimeSlots], "PSYCLAB2");
+        lab[3][0]=new Rooms(labCap, new TimeSlots[numTimeSlots], "BIOLLAB1");
+        lab[3][1]=new Rooms(labCap, new TimeSlots[numTimeSlots], "BIOLLAB2");
+        lab[4][0]=new Rooms(labCap, new TimeSlots[numTimeSlots], "ECONLAB1");
+        lab[4][1]=new Rooms(labCap, new TimeSlots[numTimeSlots], "ECONLAB2");
+        lab[5][0]=new Rooms(labCap, new TimeSlots[numTimeSlots], "PHYSLAB1");
+        lab[5][1]=new Rooms(labCap, new TimeSlots[numTimeSlots], "PHYSLAB2");
+        lab[6][0]=new Rooms(labCap, new TimeSlots[numTimeSlots], "CMSCLAB1");
+        lab[6][1]=new Rooms(labCap, new TimeSlots[numTimeSlots], "CMSCLAB2");
+    }
+
+    /*
+
+    */
+    public static int labKey(String s){
+        if(s.equals("MATH")){
+            return 0;
+        } else if(s.equals("CHEM")){
+            return 1;
+        } else if(s.equals("PSYC")){
+            return 2;
+        } else if(s.equals("BIOL")){
+            return 3;
+        } else if(s.equals("ECON")){
+            return 4;
+        } else if(s.equals("PHYS")){
+            return 5;
+        } else {
+            return 6;
+        }
+    }
+
     /**
      * Scheduling the classes into classrooms and timeslots
      * 
      * Our definition of conflict numbers is 
      */
     public static void scheduling(){
-        sortRoom();
         Courses [][] temp = pairing();
         int size = temp.length; 
         int finalCon, roomID, surplus, finalRoomID, finalT;
@@ -181,7 +224,7 @@ public class Main {
                     int [] finalConflict = new int[time.length]; 
                     for(int j = 0; j < time.length; j++){
                         // find the largest available room
-                        // we only need to first the first available room since the array is 
+                        // we only need to find the first available room since the array is 
                         // alreay sorted by its capacity
                         for (int k = 0; k < room.length; k++){ 
                             if (!room[k].isAssigned(time[j])
@@ -193,14 +236,33 @@ public class Main {
                         //surplus is positive only happens when some class have more student want to enroll
                         // than the room's capacity
                         surplus = temp[i][m].getPop() - room[roomID].getCap();
+                        if(temp[i][m].hasLab()){
+                            //find the number of lab conflicts for each time slot
+                            int[] labConflicts;
+                            for(int k=0; k<time.length; k++){
+                                labConflicts[k]=sumOfLabConflict(time[k], temp[i][j]);
+                            }
+                            int minLabCon = Integer.MAX_VALUE;
+                            for(int l=0; l<labConflicts.length; l++){
+                                if(time[l] != time[j]){
+                                    if(labConflicts[l]<minLabCon){
+                                        minLabCon=labConflicts[l];
+                                    }
+                                }
+                            }
+                            // record the larger from conflict number or the shortage of classroom capacity
+                            finalCon = Math.max(surplus, sumOfLectureConflict(time[j], temp[i][m]) + minLabCon);
+                        } else{
                         // record the larger from conflict number or the shortage of classroom capacity
-                        finalCon = Math.max(surplus, sumOfConflict(time[j], temp[i][m]));
+                        finalCon = Math.max(surplus, sumOfLectureConflict(time[j], temp[i][m]));
+                        }
                         finalConflict[j] = finalCon;
                     }
                     //find the timeslots with minimum conflict numbers 
                     int [][] arr = findMinCon(finalConflict);
                     int first = arr[0][0];
                     int second = -1;
+                    int third = -1;
                     time[first].addClass(temp[i][m]);
                     temp[i][m].addTime(time[first]); 
                     if(time[first].getDuration() < 200){
@@ -216,7 +278,18 @@ public class Main {
                             }
                         }
                     }
-
+                    if(temp[i][m].hasLab()==true) {
+                        //time[first].addClass(temp[i][m]);
+                        for(int l =  1; l < arr.length; l++){
+                            if(!time[arr[l][0]].isOverlapping(time[first]) && !time[arr[l][0]].isOverlapping(time[second])){
+                                third = arr[l][0];
+                                //System.out.println(time[second].getDuration());
+                                temp[i][m].addTime(time[arr[l][0]]); 
+                                time[arr[l][0]].addClass(temp[i][m]);
+                                break;
+                            }
+                        }
+                    }
                     //finding the room to be assigned
                     finalRoomID = roomID; //initialize it first into the largest available room
                     //finding the smallest room can fit all students inside
@@ -249,7 +322,16 @@ public class Main {
                         room[finalRoomID].setTime(time[second],second);
                         room[finalRoomID].addCourse(temp[i][m], time[second]);
                     }
-                    
+                    if(third != -1){
+                        int key = labKey(temp[i][m].getSubject());
+                        if(!lab[key][0].isAssigned(time[third])){
+                            lab[key][0].setTime(time[third], third);
+                            lab[key][0].addCourse(temp[i][m], time[third]);
+                        } else{
+                            lab[key][1].setTime(time[third], third);
+                            lab[key][1].addCourse(temp[i][m], time[third]);
+                        }
+                    }
                 }
             }
         }
@@ -277,13 +359,14 @@ public class Main {
     }
 
     /**
-     * calculate the number of conflicts between the course c and all other courses assigned
+     * calculate the number of conflicts between the lectures of course c 
+     * and all other courses assigned
      * into the timeslot t and all other timeslots overlapping with t
      * @param t some timeslot
      * @param c some course
      * @return the number of conflicts 
      */
-    public static int sumOfConflict(TimeSlots t, Courses c){
+    public static int sumOfLectureConflict(TimeSlots t, Courses c){
         int conflict = 0;
         //caculating the number of total conflicts 
         for (int i =0; i< t.getCourse().size();i++) {
@@ -312,6 +395,76 @@ public class Main {
         }
         return conflict;
     }
+
+    /**
+     * calculate the number of conflicts between the lab section of course c 
+     * and all other courses assigned
+     * into the timeslot t and all other timeslots overlapping with t
+     * @param t some timeslot
+     * @param c some course
+     * @return the number of conflicts 
+     */
+    public static int sumOfLabConflict(TimeSlots t, Courses c){
+        int key = labKey(c.getSubject());
+        int conflict1 = 0;
+        //caculating the number of total conflicts 
+        for (int i =0; i< t.getCourse().size();i++) {
+            //Check if the course c uses the same lab room as  
+            //another course scheduled for the same timeslot t
+            if(t.getCourse().get(i).getLabRoom().equals(lab[key][0])){
+                conflict1 = Integer.MAX_VALUE;
+                break;
+            }
+            if(conflict1 != Integer.MAX_VALUE){
+                conflict1 += t.getCourse().get(i).getCConflict(c);
+            }
+        }
+        //checking all timeslots overlapping with t and redo the process with them
+        for(TimeSlots tt : t.getConflictTime()){
+            for (int i =0; i< tt.getCourse().size();i++) {
+            if(t.getCourse().get(i).getLabRoom().equals(lab[key][0])){
+                conflict1 = Integer.MAX_VALUE;
+                break;
+            }
+                if(conflict1 != Integer.MAX_VALUE){
+                    conflict1 += tt.getCourse().get(i).getCConflict(c);
+                }
+                
+            }
+        }
+        int conflict2 = 0;
+        //caculating the number of total conflicts 
+        for (int i =0; i< t.getCourse().size();i++) {
+            //Check if the course c uses the same lab room as  
+            //another course scheduled for the same timeslot t
+            if(t.getCourse().get(i).getLabRoom().equals(lab[key][1])){
+                conflict2 = Integer.MAX_VALUE;
+                break;
+            }
+            if(conflict2 != Integer.MAX_VALUE){
+                conflict2 += t.getCourse().get(i).getCConflict(c);
+            }
+        }
+        //checking all timeslots overlapping with t and redo the process with them
+        for(TimeSlots tt : t.getConflictTime()){
+            for (int i =0; i< tt.getCourse().size();i++) {
+            if(t.getCourse().get(i).getLabRoom().equals(lab[key][1])){
+                conflict2 = Integer.MAX_VALUE;
+                break;
+            }
+                if(conflict2 != Integer.MAX_VALUE){
+                    conflict2 += tt.getCourse().get(i).getCConflict(c);
+                }
+                
+            }
+        }
+        if(conflict1>=conflict2){
+            return conflict1;
+        } else{
+            return conflict2;
+        }
+    }
+
 
     /**
      * enroll students into courses
@@ -358,7 +511,7 @@ public class Main {
     /**
      * Read the input files and store all instances into several arrays
     */
-    public static void readFile(String constraints, String prefs) throws FileNotFoundException, IOException{
+    public static int readFile(String constraints, String prefs) throws FileNotFoundException, IOException{
         BufferedReader con; //constraints file
         BufferedReader pre; //students' preference list
         con = new BufferedReader(new FileReader(constraints)); //read the constaint file first
@@ -423,7 +576,6 @@ public class Main {
                         classes[classCount].setProf(p);
                         professors.get(info[1]).addCourse(classes[classCount]);
                         classes[classCount].setSubject(info[2]);
-                        classes[classCount].toLab();
                         ArrayList<Rooms> validRooms=new ArrayList<Rooms>();
                         for(int k=3; k<info.length; k++){
                             for(int j=0; j<room.length; j++){
@@ -480,6 +632,7 @@ public class Main {
         }
         pre.close();
         con.close();
+        return tsize;
     }
 
     /**
@@ -537,8 +690,10 @@ public class Main {
         String con = args[0];
         String pref = args[1];
         String output = args[2];
-        readFile(con,pref); //reading input
+        int numTimeSlots = readFile(con,pref); //reading input
         int count = getPopandCon(); //getting the popularity and conflict numbers
+        sortRoom();
+        setLabRooms(numTimeSlots);
         scheduling(); //output a possible schedule
         enrollment(); //enroll students in
         int preferenceVal = outputSchedule(output); //output the schedule in a file and get the preference value
