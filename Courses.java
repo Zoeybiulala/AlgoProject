@@ -1,24 +1,46 @@
-import java.util.ArrayList;
-/* The Courses will contain information about one course
+/**
+ * Description: The Courses will contain information about one course, including its location 
+ *              in the array, the prof to teach this course, a list storing the room that it 
+ *              be assigned in, its popularity, list of students who would like to 
+ *              enroll and a list of registered students, two array storing the conflict value with
+ *              each other courses, and another which we used to count fo the final conflict value
+ *              and one assigned room, a name, a subject and whether it has lab.
+ * 
+ * Date Updated: Nov.9, 2021
+ * Author: Tianbo Yang, Yitian Cao, Xinran Liu
  */
+import java.util.ArrayList;
+
 public class Courses{
-    //instances field
-    private int ID; //unique id for a course
+    /**
+     * ID: unique id for a course
+     * registrationList: a list of registered students
+     * prof: the professor who will teach the class
+     * popularity: the number of students who want to take this class
+     * room: the assigned room for this class
+     * validRooms: list of valid rooms this class can be taught in
+     * time: the assigned time for this class
+     * classConflict: the index of the array is the each class and the value represents 
+     *                  the conflict number of this class with the class at certain index
+     * finalConflict: the index of the array is the time slot and the value represents
+                        a value that represents the conflict score at the given time slot
+     * name: name for the course
+     * subject: the subject for this class determines the lab room assignment
+     * lab: whether this class has a lab
+     */
+    private int ID; 
     private ArrayList<Students> registrationList = new ArrayList<Students>();
-                    //a list of registered students
-    private Professors prof; // the professor who will teach the class
-    private int popularity; // the number of students who want to take this class
-    private Rooms room; // the assigned room for this class
+    private Professors prof; 
+    private int popularity; 
+    private Rooms room; 
     private ArrayList<Rooms> validRooms = new ArrayList<Rooms>(); 
-                    //list of valid rooms this class can be taught in
-    private ArrayList<TimeSlots> time = new ArrayList<TimeSlots>(); //the assigned time for this class
-    private int [] classConflict; //the index of the array is the each class and the value represents
-                                  //the conflict number of this class with the class at certain index
-    private int [] finalConflict; //the index of the array is the time slot and the value represents
-                                  //a value that represents the conflict score at the given time slot
+    private ArrayList<TimeSlots> time = new ArrayList<TimeSlots>(); 
+    private int [] classConflict; 
+    private int [] finalConflict; 
     private String name;
-    private String subject; //the subject for this class determines the lab room assignment
-    private boolean lab; //does this class have a lab
+    private String subject; 
+    private boolean lab;
+
     /* Constructor
      * @param i, the id of the course
      * @param cap, the number of classes to be scheduled
@@ -37,7 +59,7 @@ public class Courses{
         lab = false;
     }
 
-    //getters and setters
+    /** getters */
     public int getID(){ 
         return  ID;
     }
@@ -102,6 +124,8 @@ public class Courses{
         return name;
     }
 
+    /** setters */
+
     public void setFConflict(Courses c, int i){
         finalConflict[c.ID] = i;
     }
@@ -134,44 +158,70 @@ public class Courses{
         lab = l;
     }
 
-    //increment popularity of the class
+    /**
+     * increment popularity of the class
+     */
     public void incrPop(){
         popularity++;
     }
 
-    //increment the conflict number of this class and another class c
+    /**
+     * increment the conflict number of this class with another class c
+     */
     public void incrCon(Courses c){
         classConflict[c.ID]++;
     }
-
+    /**
+     * @Override
+     * @param c
+     */
     public void incrCon(int c){
         classConflict[c]++;
     }
 
+    /**
+     * set the conflict number of this class with another class c
+     * @param c course
+     * @param i conflict number
+     */
     public void setCon(Courses c, int i){
         classConflict[c.ID] = i;
     }
 
+    /**
+     * @Override
+     * @param c
+     * @param i
+     */
     public void setCon(int c, int i){
         classConflict[c] = i;
     }
 
-    //add a student s to the registration list 
+    /**
+     * add a student s to the registration list 
+     */
     public void addStu(Students s){
         registrationList.add(s);
     }
 
-    //add a single timeSlots to the course
+    /** 
+     * add a single timeSlots to the course
+     */
     public void addTime(TimeSlots t){
         time.add(t);
     }
 
-    //to see if the class is scheduled or not
+    /**
+     * to see if the class is scheduled or not
+     * @return true if it is not scheduled
+     */
     public boolean notScheduled(){
         return (time.size()==0)||(room==null);
     }
 
-    //evaluates whether the class has a lab section based on subject
+    /**
+     * evaluates whether the class has a lab section based on subject
+     */
     public void toLab(){
         if(subject.equals("MATH") 
         || subject.equals("CHEM") 
