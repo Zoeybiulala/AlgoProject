@@ -1,2 +1,0 @@
-sh run_timeslot_modified.sh
-python3 readRecord.py
