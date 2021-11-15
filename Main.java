@@ -202,6 +202,7 @@ public class Main {
                     int [][] arr = findMinCon(finalConflict);
                     int first = arr[0][0];
                     int second = -1;
+                    int third = -1;
                     time[first].addClass(temp[i][m]);
                     temp[i][m].addTime(time[first]); 
                     if(time[first].getDuration() < 200){
@@ -214,6 +215,33 @@ public class Main {
                                 temp[i][m].addTime(time[arr[k][0]]); 
                                 time[arr[k][0]].addClass(temp[i][m]);
                                 break;
+                            }
+                        }
+                    }
+                    if(second >0){
+                        if(temp[i][m].hasLab()==true) {
+                            //time[first].addClass(temp[i][m]);
+                            for(int l =  1; l < arr.length; l++){
+                                if(!time[arr[l][0]].isOverlapping(time[first]) && !time[arr[l][0]].isOverlapping(time[second])){
+                                    third = arr[l][0];
+                                    //System.out.println(time[second].getDuration());
+                                    temp[i][m].addTime(time[arr[l][0]]); 
+                                    time[arr[l][0]].addClass(temp[i][m]);
+                                    break;
+                                }
+                            }
+                        }
+                    } else {
+                        if(temp[i][m].hasLab()==true) {
+                            //time[first].addClass(temp[i][m]);
+                            for(int l =  1; l < arr.length; l++){
+                                if(!time[arr[l][0]].isOverlapping(time[first])){
+                                    third = arr[l][0];
+                                    //System.out.println(time[second].getDuration());
+                                    temp[i][m].addTime(time[arr[l][0]]); 
+                                    time[arr[l][0]].addClass(temp[i][m]);
+                                    break;
+                                }
                             }
                         }
                     }

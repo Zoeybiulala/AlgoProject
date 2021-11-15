@@ -1,14 +1,3 @@
-/**
- * Description: The Courses will contain information about one course, including its location 
- *              in the array, the prof to teach this course, a list storing the room that it 
- *              be assigned in, its popularity, list of students who would like to 
- *              enroll and a list of registered students, two array storing the conflict value with
- *              each other courses, and another which we used to count fo the final conflict value
- *              and one assigned room, a name, a subject and whether it has lab.
- * 
- * Date Updated: Nov.9, 2021
- * Author: Tianbo Yang, Yitian Cao, Xinran Liu
- */
 import java.util.ArrayList;
 /* The Courses will contain information about one course
  */
@@ -20,12 +9,17 @@ public class Courses{
     private Professors prof; // the professor who will teach the class
     private int popularity; // the number of students who want to take this class
     private Rooms room; // the assigned room for this class
+    private ArrayList<Rooms> validRooms = new ArrayList<Rooms>(); 
+                    //list of valid rooms this class can be taught in
     private ArrayList<TimeSlots> time = new ArrayList<TimeSlots>(); //the assigned time for this class
     private int [] classConflict; //the index of the array is the each class and the value represents
                                   //the conflict number of this class with the class at certain index
     private int [] finalConflict; //the index of the array is the time slot and the value represents
                                   //a value that represents the conflict score at the given time slot
     private String name;
+    private String subject; //the subject for this class determines the lab room assignment
+    private boolean lab = false; //does this class have a lab
+    private String labRoom;
     /* Constructor
      * @param i, the id of the course
      * @param cap, the number of classes to be scheduled
@@ -40,6 +34,9 @@ public class Courses{
         popularity = 0;
         room = null;
         name = n;
+        subject = null;
+        lab = false;
+        labRoom = null;
     }
 
     //getters and setters
@@ -59,12 +56,28 @@ public class Courses{
         return room;
     }
 
+    public ArrayList<Rooms> getValidRooms(){
+        return validRooms;
+    }
+
     public Professors getPro(){
         return prof;
     }
 
     public ArrayList<TimeSlots> getTime(){
         return time;
+    }
+
+    public String getSubject(){
+        return subject;
+    }
+
+    public String getLabRoom(){
+        return labRoom;
+    }
+
+    public boolean hasLab(){
+        return lab;
     }
 
     public void incrConflict(Courses c){
@@ -111,8 +124,25 @@ public class Courses{
         room = r;
     }
 
+    public void setValidRooms(ArrayList<Rooms> vR){
+        validRooms = vR;
+    }
+
     public void setTime(ArrayList<TimeSlots> t){
         time = t;
+    }
+
+    public void setSubject(String s){
+        subject = s;
+        toLab();
+    }
+
+    public void setLab(boolean l){
+        lab = true;
+    }
+
+    public void setLabRoom(String roomName){
+        labRoom = roomName;
     }
 
     //increment popularity of the class
@@ -152,4 +182,16 @@ public class Courses{
         return (time.size()==0)||(room==null);
     }
 
+    //evaluates whether the class has a lab section based on subject
+    public void toLab(){
+        if(subject.equals("MATH") 
+        || subject.equals("CHEM") 
+        || subject.equals("PSYC") 
+        || subject.equals("BIOL") 
+        || subject.equals("ECON")
+        || subject.equals("PHYS")
+        || subject.equals("CMSC")){
+            lab = true;
+        }
+    }
 }
