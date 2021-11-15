@@ -1,3 +1,14 @@
+/**
+ * Description: The Courses will contain information about one course, including its location 
+ *              in the array, the prof to teach this course, a list storing the room that it 
+ *              be assigned in, its popularity, list of students who would like to 
+ *              enroll and a list of registered students, two array storing the conflict value with
+ *              each other courses, and another which we used to count fo the final conflict value
+ *              and one assigned room, a name, a subject and whether it has lab.
+ * 
+ * Date Updated: Nov.9, 2021
+ * Author: Tianbo Yang, Yitian Cao, Xinran Liu
+ */
 import java.util.ArrayList;
 /* The Courses will contain information about one course
  */
