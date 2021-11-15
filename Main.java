@@ -193,11 +193,8 @@ public class Main {
                         finalConflict[j] = finalCon;
                     }
                     //find the timeslot with minimum conflict numbers 
-                    finalT = findMinCon(finalConflict);
-                    //schedule the course into the timeslot
-                    temp[i][m].setTime(time[finalT]); 
-                    //record the course into timeslot instances
-                    time[finalT].addClass(temp[i][m]);
+                    int tmp[][] = findMinCon(finalConflict);
+                    finalT = tmp[0][0];
 
                     //finding the room to be assigned
                     finalRoomID = roomID; //initialize it first into the largest available room
@@ -209,8 +206,29 @@ public class Main {
                             finalRoomID = h;
                             break;
                         }
-                        finalRoomID = h;
+                        if (!room[h].isAssigned(time[finalT])
+                        && temp[i][m].getValidRooms().contains(room[h]))
+                            finalRoomID = h; //when we never entered the if statement, we need 
+                                         //to assign the largest room available.
                     }
+                    boolean hasRoom = false;
+                    if(finalRoomID == roomID){
+                        if (room[finalRoomID].isAssigned(time[finalT])
+                        || !temp[i][m].getValidRooms().contains(room[finalRoomID])){
+                            for (int h = 0; h < room.length; h++){
+                                if(!room[h].isAssigned(time[finalT])
+                                    && temp[i][m].getValidRooms().contains(room[h])){ 
+                                    finalRoomID = h;
+                                    hasRoom = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    //schedule the course into the timeslot
+                    temp[i][m].setTime(time[finalT]); 
+                    //record the course into timeslot instances
+                    time[finalT].addClass(temp[i][m]);
                     //setting & scheduling
                     temp[i][m].setRoom(room[finalRoomID]);
                     room[finalRoomID].setTime(time[finalT],finalT);
@@ -225,17 +243,20 @@ public class Main {
      * @param arr array storing the conflict numbers of some course with all time slots
      * @return the index of the array with the least conflict number
      */
-    public static int findMinCon(int [] arr){
-        int id = 0;
-        int min = arr[0];
-        for (int i = 1; i < arr.length; i++){
-            if(arr[i]<min){
-                id = i;
-                min = arr[i];
-            }
+    public static int[][] findMinCon(int [] arr){
+        int [][] tmp = new int[arr.length][2];
+        for(int i = 0; i < arr.length; i++){
+            tmp[i][0] = i;
+            tmp[i][1] = arr[i];
         }
-        if(min==Integer.MAX_VALUE) return -1;
-        return id;
+        Arrays.sort(tmp, new Comparator<int[]>() {
+            @Override
+                 //arguments to this method represent the arrays to be sorted   
+                public int compare(int [] a, int [] b){
+                    return Integer.compare(a[1], b[1]);
+                }
+        });
+        return tmp;
     }
 
     /**
