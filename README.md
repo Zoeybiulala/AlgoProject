@@ -1,4 +1,5 @@
 # AlgoProject
+This folder is the original one reading the real data, with no location constraint, splitted timeslots
 In order to run this project, you should run **run_main.sh** first. 
 beforehand, you need to ensure there is a record.txt in your code sources file and which is empty
 The source file in this situation is no-location-constraint-split-time
