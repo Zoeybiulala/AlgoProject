@@ -206,24 +206,40 @@ public class Main {
                             finalRoomID = h;
                             break;
                         }
-                        if (!room[h].isAssigned(time[finalT])
-                        && temp[i][m].getValidRooms().contains(room[h]))
+                        // if (!room[h].isAssigned(time[finalT])
+                        // && temp[i][m].getValidRooms().contains(room[h]))
                             finalRoomID = h; //when we never entered the if statement, we need 
                                          //to assign the largest room available.
                     }
                     boolean hasRoom = false;
-                    if(finalRoomID == roomID){
-                        if (room[finalRoomID].isAssigned(time[finalT])
-                        || !temp[i][m].getValidRooms().contains(room[finalRoomID])){
-                            for (int h = 0; h < room.length; h++){
-                                if(!room[h].isAssigned(time[finalT])
-                                    && temp[i][m].getValidRooms().contains(room[h])){ 
-                                    finalRoomID = h;
-                                    hasRoom = true;
-                                    break;
-                                }
-                            }
-                        }
+                    // if(finalRoomID == roomID){
+                    //     if (room[finalRoomID].isAssigned(time[finalT])
+                    //     || !temp[i][m].getValidRooms().contains(room[finalRoomID])){
+                    //         for (int h = 0; h < room.length; h++){
+                    //             if(!room[h].isAssigned(time[finalT])
+                    //                 && temp[i][m].getValidRooms().contains(room[h])){ 
+                    //                 finalRoomID = h;
+                    //                 hasRoom = true;
+                    //                 break;
+                    //             }
+                    //         }
+                    //     }
+                    // }
+                    int count = 1;
+                    while(!hasRoom && count < tmp.length){
+                         finalT = tmp[count][0];
+                         if (room[finalRoomID].isAssigned(time[finalT])
+                         || !temp[i][m].getValidRooms().contains(room[finalRoomID])){
+                             for (int h = 0; h < room.length; h++){
+                                 if(!room[h].isAssigned(time[finalT])
+                                     && temp[i][m].getValidRooms().contains(room[h])){ 
+                                     finalRoomID = h;
+                                     hasRoom = true;
+                                     break;
+                                 }
+                             }
+                         }
+                         count++;
                     }
                     //schedule the course into the timeslot
                     temp[i][m].setTime(time[finalT]); 

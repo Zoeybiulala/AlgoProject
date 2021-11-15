@@ -1005,3 +1005,23 @@ Student Preference Value: 3168
 Best Case Student Value: 3509
 Fit percentage: 90.28213166144201%
 Time used: 257
+F2000
+Student Preference Value: 2066
+Best Case Student Value: 3509
+Fit percentage: 58.877172983756054%
+Time used: 232
+F2000
+Student Preference Value: 2066
+Best Case Student Value: 3509
+Fit percentage: 58.877172983756054%
+Time used: 300
+F2000
+Student Preference Value: 3261
+Best Case Student Value: 3509
+Fit percentage: 92.93245939013964%
+Time used: 136
+F2000
+Student Preference Value: 2349
+Best Case Student Value: 3509
+Fit percentage: 66.94214876033058%
+Time used: 161
