@@ -225,22 +225,22 @@ public class Main {
                     //         }
                     //     }
                     // }
-                    int count = 1;
-                    while(!hasRoom && count < tmp.length){
-                         finalT = tmp[count][0];
-                         if (room[finalRoomID].isAssigned(time[finalT])
-                         || !temp[i][m].getValidRooms().contains(room[finalRoomID])){
-                             for (int h = 0; h < room.length; h++){
-                                 if(!room[h].isAssigned(time[finalT])
-                                     && temp[i][m].getValidRooms().contains(room[h])){ 
-                                     finalRoomID = h;
-                                     hasRoom = true;
-                                     break;
-                                 }
-                             }
-                         }
-                         count++;
-                    }
+                    // int count = 1;
+                    // while(!hasRoom && count < tmp.length){
+                    //      finalT = tmp[count][0];
+                    //      if (room[finalRoomID].isAssigned(time[finalT])
+                    //      || !temp[i][m].getValidRooms().contains(room[finalRoomID])){
+                    //          for (int h = 0; h < room.length; h++){
+                    //              if(!room[h].isAssigned(time[finalT])
+                    //                  && temp[i][m].getValidRooms().contains(room[h])){ 
+                    //                  finalRoomID = h;
+                    //                  hasRoom = true;
+                    //                  break;
+                    //              }
+                    //          }
+                    //      }
+                    //      count++;
+                    // }
                     //schedule the course into the timeslot
                     temp[i][m].setTime(time[finalT]); 
                     //record the course into timeslot instances
